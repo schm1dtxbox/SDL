@@ -1787,7 +1787,7 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
             } else if ( state->rgucRightTriggerEffect[0] == 0x06 ) {
               [rightadaptiveTrigger setModeVibrationWithStartPosition: 0.4
                 amplitude: 1.0
-                frequency: 0.5];
+                frequency: 0.05];
             } else {
               [rightadaptiveTrigger setModeOff];
             }
