@@ -1732,10 +1732,8 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
 
         if (@available(macOS 10.16, iOS 14.0, tvOS 14.0, *)) {
             GCController *controller = device->controller;
-            GCDualSenseGamepad *dualSense = controller.physicalInputProfile;
-            if ( !IsControllerPS5(controller) ) {
-                return 0;
-            }
+            GCExtendedGamepad *gamepad = controller.extendedGamepad;
+            GCDualSenseGamepad *dualSense = [gamepad isKindOfClass:[GCDualSenseGamepad class]] ? gamepad : nil;
             GCDualSenseAdaptiveTrigger *adaptiveTrigger = dualSense.rightTrigger;
             float resistiveStrength = SDL_min(1, 0.4 + adaptiveTrigger.value);
             if ( adaptiveTrigger.value < 0.9 ) {
