@@ -1721,10 +1721,36 @@ static int IOS_JoystickSetLED(SDL_Joystick *joystick, Uint8 red, Uint8 green, Ui
 #define let __auto_type const 
 #endif
 
+typedef struct
+{
+    Uint8 ucEnableBits1;              /* 0 */
+    Uint8 ucEnableBits2;              /* 1 */
+    Uint8 ucRumbleRight;              /* 2 */
+    Uint8 ucRumbleLeft;               /* 3 */
+    Uint8 ucHeadphoneVolume;          /* 4 */
+    Uint8 ucSpeakerVolume;            /* 5 */
+    Uint8 ucMicrophoneVolume;         /* 6 */
+    Uint8 ucAudioEnableBits;          /* 7 */
+    Uint8 ucMicLightMode;             /* 8 */
+    Uint8 ucAudioMuteBits;            /* 9 */
+    Uint8 rgucRightTriggerEffect[11]; /* 10 */
+    Uint8 rgucLeftTriggerEffect[11];  /* 21 */
+    Uint8 rgucUnknown1[6];            /* 32 */
+    Uint8 ucLedFlags;                 /* 38 */
+    Uint8 rgucUnknown2[2];            /* 39 */
+    Uint8 ucLedAnim;                  /* 41 */
+    Uint8 ucLedBrightness;            /* 42 */
+    Uint8 ucPadLights;                /* 43 */
+    Uint8 ucLedRed;                   /* 44 */
+    Uint8 ucLedGreen;                 /* 45 */
+    Uint8 ucLedBlue;                  /* 46 */
+} DS5EffectsState_t;
+
 static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int size)
 {
     @autoreleasepool {
         SDL_JoystickDeviceItem *device = joystick->hwdata;
+        DS5EffectsState_t state = data;
 
         if (device == NULL) {
             return SDL_SetError("Controller is no longer connected");
@@ -1736,13 +1762,16 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
             GCDualSenseGamepad* dualSense = (GCDualSenseGamepad*)gamepad;
             GCDualSenseAdaptiveTrigger *adaptiveTrigger = dualSense.rightTrigger;
             float resistiveStrength = SDL_min(1, 0.4 + adaptiveTrigger.value);
-            if ( adaptiveTrigger.value < 0.9 ) {
-              [adaptiveTrigger setModeFeedbackWithStartPosition: 0
-                resistiveStrength: resistiveStrength];
-            } else {
+            if ( state.rgucRightTriggerEffect[0] == 37 ) {
+              [adaptiveTrigger setModeWeaponWithStartPosition: 0.2
+                endPosition: 0.4
+                resistiveStrength: 0.5];
+            } else if ( state.rgucRightTriggerEffect[0] == 6 ) {
               [adaptiveTrigger setModeVibrationWithStartPosition: 0
                 amplitude: resistiveStrength
                 frequency: 0.03];
+            } else {
+              [adaptiveTrigger setModeOff];
             }
         }
         return 0;
