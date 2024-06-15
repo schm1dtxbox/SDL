@@ -468,7 +468,6 @@ static BOOL IOS_AddMFIJoystickDevice(SDL_JoystickDeviceItem *device, GCControlle
     } else if (device->is_ps5) {
         vendor = USB_VENDOR_SONY;
         product = USB_PRODUCT_SONY_DS5;
-        IOS_JoystickSetLED(device, 0, 0, 255);
     } else if (device->is_switch_pro) {
         vendor = USB_VENDOR_NINTENDO;
         product = USB_PRODUCT_NINTENDO_SWITCH_PRO;
@@ -987,6 +986,7 @@ static int IOS_JoystickOpen(SDL_Joystick *joystick, int device_index)
 
     if (device->has_dualshock_touchpad) {
         SDL_PrivateJoystickAddTouchpad(joystick, 2);
+        IOS_JoystickSetLED(joystick, 0, 0, 255);
     }
 
     device->joystick = joystick;
