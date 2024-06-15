@@ -158,6 +158,7 @@
 #define SDL_AUDIO_DRIVER_DUMMY  1
 
 /* Enable various input drivers */
+#define SDL_HIDAPI_DISABLED 1
 #define SDL_JOYSTICK_IOKIT  1
 #define SDL_JOYSTICK_VIRTUAL    1
 #define SDL_HAPTIC_IOKIT    1
