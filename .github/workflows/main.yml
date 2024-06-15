@@ -15,7 +15,7 @@ jobs:
       fail-fast: false         
 
     steps:
-    - name: Setup Macos dependencies
+    - name: Setup Dependencies
       run: |
         brew install \
           autoconf \
@@ -23,7 +23,7 @@ jobs:
           pkg-config
 
     - uses: actions/checkout@v4
-    - name: Configure (CMake)
+    - name: Configure
       run: |
         cmake -S . -B build -G Ninja \
         -DSDL_TESTS=ON \
@@ -33,12 +33,17 @@ jobs:
         -DCMAKE_INSTALL_PREFIX=cmake_prefix \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_OSX_ARCHITECTURES="arm64"
-    - name: Build (CMake)
+    - name: Build
       run: |
         cmake --build build/ --config Release --verbose --parallel
-    - name: Install (CMake)
+    - name: Install
       run: |
         set -eu
         cmake --install build/ --config Release
         echo "SDL2_DIR=$(pwd)/cmake_prefix" >> $GITHUB_ENV
         ( cd cmake_prefix; find ) | LC_ALL=C sort -u
+    - name: Upload
+      uses: actions/upload-artifact@v4.3.3
+      with:
+        path: build/
+                
