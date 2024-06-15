@@ -2175,7 +2175,7 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
 
     if (SDL_ShouldAllowTopmost() && fullscreen) {
         /* OpenGL is rendering to the window, so make it visible! */
-        [nswindow setLevel:CGShieldingWindowLevel()];
+        [nswindow setLevel:NSMainMenuWindowLevel + 1];
     } else if (window->flags & SDL_WINDOW_ALWAYS_ON_TOP) {
         [nswindow setLevel:NSFloatingWindowLevel];
     } else {
@@ -2331,7 +2331,7 @@ void Cocoa_SetWindowMouseGrab(_THIS, SDL_Window * window, SDL_bool grabbed)
             && ![data.listener isInFullscreenSpace]) {
             /* OpenGL is rendering to the window, so make it visible! */
             /* Doing this in 10.11 while in a Space breaks things (bug #3152) */
-            [data.nswindow setLevel:CGShieldingWindowLevel()];
+            [data.nswindow setLevel:NSMainMenuWindowLevel + 1];
         } else if (window->flags & SDL_WINDOW_ALWAYS_ON_TOP) {
             [data.nswindow setLevel:NSFloatingWindowLevel];
         } else {
