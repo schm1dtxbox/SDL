@@ -636,17 +636,6 @@ if(USE_GCC OR USE_CLANG OR USE_INTELCC OR USE_QCC)
     endif()
   endif()
 
-  check_c_compiler_flag(-Wdeclaration-after-statement HAVE_GCC_WDECLARATION_AFTER_STATEMENT)
-  if(HAVE_GCC_WDECLARATION_AFTER_STATEMENT)
-    if(SDL_WERROR)
-      check_c_compiler_flag(-Werror=declaration-after-statement HAVE_GCC_WERROR_DECLARATION_AFTER_STATEMENT)
-      if(HAVE_GCC_WERROR_DECLARATION_AFTER_STATEMENT)
-        list(APPEND EXTRA_CFLAGS "-Werror=declaration-after-statement")
-      endif()
-    endif()
-    list(APPEND EXTRA_CFLAGS "-Wdeclaration-after-statement")
-  endif()
-
   if(DEPENDENCY_TRACKING)
     check_c_source_compiles("
         #if !defined(__GNUC__) || __GNUC__ < 3
