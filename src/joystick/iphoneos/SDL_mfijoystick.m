@@ -1749,8 +1749,26 @@ typedef struct
 static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int size)
 {
     @autoreleasepool {
+        Uint8 data[78];
+        int report_size, offset;
+        SDL_zeroa(data);
+
+        data[0] = 0x31;
+        data[1] = 0x02; /* Magic value */
+
+        report_size = 78;
+        offset = 2;
+    
+        SDL_memcpy(&data[offset], effect, SDL_min((sizeof(data) - offset), (size_t)size));
+        /* Bluetooth reports need a CRC at the end of the packet (at least on Linux) */
+        Uint8 ubHdr = 0xA2; /* hidp header is part of the CRC calculation */
+        Uint32 unCRC;
+        unCRC = SDL_crc32(0, &ubHdr, 1);
+        unCRC = SDL_crc32(unCRC, data, (size_t)(report_size - sizeof(unCRC)));
+        SDL_memcpy(&data[report_size - sizeof(unCRC)], &unCRC, sizeof(unCRC));
+        
         SDL_JoystickDeviceItem *device = joystick->hwdata;
-        DS5EffectsState_t *state = (DS5EffectsState_t *)&data;
+        DS5EffectsState_t *state = (DS5EffectsState_t *)&data[offset];
 
         if (device == NULL) {
             return SDL_SetError("Controller is no longer connected");
