@@ -1121,11 +1121,7 @@ static NSCursor *Cocoa_GetDesiredCursor(void)
 
 -(NSApplicationPresentationOptions)window:(NSWindow *)window willUseFullScreenPresentationOptions:(NSApplicationPresentationOptions)proposedOptions
 {
-    if ((_data.window->flags & SDL_WINDOW_FULLSCREEN_DESKTOP) == SDL_WINDOW_FULLSCREEN_DESKTOP) {
-        return NSApplicationPresentationFullScreen | NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar;
-    } else {
-        return proposedOptions;
-    }
+    return NSApplicationPresentationFullScreen | NSApplicationPresentationHideDock | NSApplicationPresentationAutoHideMenuBar;
 }
 
 /* We'll respond to key events by mostly doing nothing so we don't beep.
