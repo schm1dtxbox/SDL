@@ -1719,7 +1719,33 @@ static int IOS_JoystickSetLED(SDL_Joystick *joystick, Uint8 red, Uint8 green, Ui
 
 static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int size)
 {
-    return SDL_Unsupported();
+    @autoreleasepool {
+        SDL_JoystickDeviceItem *device = joystick->hwdata;
+
+        if (device == NULL) {
+            return SDL_SetError("Controller is no longer connected");
+        }
+
+        if (@available(macOS 10.16, iOS 14.0, tvOS 14.0, *)) {
+            GCController *controller = device->controller;
+            guard let dualSense = controller.physicalInputProfile as? GCDualSenseGamepad
+                else {
+                    return
+                }
+            let adaptiveTrigger = dualSense.rightTrigger
+            let resistiveStrength = min(1, 0.4 + adaptiveTrigger.value)
+            if adaptiveTrigger.value < 0.9 {
+              adaptiveTrigger.setModeFeedbackWithStartPosition(
+                0,
+                resistiveStrength: resistiveStrength)
+            } else {
+              adaptiveTrigger.setModeVibrationWithStartPosition(
+                0,
+                amplitude: resistiveStrength,
+                frequency: 0.03)
+            }
+        }
+    }
 }
 
 static int IOS_JoystickSetSensorsEnabled(SDL_Joystick *joystick, SDL_bool enabled)
