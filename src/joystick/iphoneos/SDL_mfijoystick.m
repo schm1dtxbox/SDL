@@ -969,6 +969,32 @@ static SDL_JoystickID IOS_JoystickGetDeviceInstanceID(int device_index)
     return device ? device->instance_id : -1;
 }
 
+static int IOS_JoystickSetLED(SDL_Joystick *joystick, Uint8 red, Uint8 green, Uint8 blue)
+{
+#ifdef ENABLE_MFI_LIGHT
+    @autoreleasepool {
+        SDL_JoystickDeviceItem *device = joystick->hwdata;
+
+        if (device == NULL) {
+            return SDL_SetError("Controller is no longer connected");
+        }
+
+        if (@available(macOS 10.16, iOS 14.0, tvOS 14.0, *)) {
+            GCController *controller = device->controller;
+            GCDeviceLight *light = controller.light;
+            if (light) {
+                light.color = [[GCColor alloc] initWithRed:(float)red / 255.0f
+                                                     green:(float)green / 255.0f
+                                                      blue:(float)blue / 255.0f];
+                return 0;
+            }
+        }
+    }
+#endif /* ENABLE_MFI_LIGHT */
+
+    return SDL_Unsupported();
+}
+
 static int IOS_JoystickOpen(SDL_Joystick *joystick, int device_index)
 {
     SDL_JoystickDeviceItem *device = GetDeviceForIndex(device_index);
@@ -1691,36 +1717,6 @@ static Uint32 IOS_JoystickGetCapabilities(SDL_Joystick *joystick)
 
     return result;
 }
-
-static int IOS_JoystickSetLED(SDL_Joystick *joystick, Uint8 red, Uint8 green, Uint8 blue)
-{
-#ifdef ENABLE_MFI_LIGHT
-    @autoreleasepool {
-        SDL_JoystickDeviceItem *device = joystick->hwdata;
-
-        if (device == NULL) {
-            return SDL_SetError("Controller is no longer connected");
-        }
-
-        if (@available(macOS 10.16, iOS 14.0, tvOS 14.0, *)) {
-            GCController *controller = device->controller;
-            GCDeviceLight *light = controller.light;
-            if (light) {
-                light.color = [[GCColor alloc] initWithRed:(float)red / 255.0f
-                                                     green:(float)green / 255.0f
-                                                      blue:(float)blue / 255.0f];
-                return 0;
-            }
-        }
-    }
-#endif /* ENABLE_MFI_LIGHT */
-
-    return SDL_Unsupported();
-}
-
-#ifndef let
-#define let __auto_type const 
-#endif
 
 typedef struct
 {
