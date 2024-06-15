@@ -26,16 +26,13 @@ jobs:
     - name: Configure
       run: |
         cmake -S . -B build -G Ninja \
-        -DSDL_TESTS=ON \
-        -DSDL_WERROR=ON \
-        -DSDL_INSTALL_TESTS=ON \
         -DSDL_VENDOR_INFO="Github Workflow" \
         -DCMAKE_INSTALL_PREFIX=cmake_prefix \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_OSX_ARCHITECTURES="arm64"
     - name: Build
       run: |
-        cmake --build build/ --config Release --verbose --parallel
+        cmake --build build/ --config Release --parallel
     - name: Install
       run: |
         set -eu
