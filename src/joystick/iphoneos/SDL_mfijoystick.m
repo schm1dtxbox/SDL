@@ -1750,7 +1750,7 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
 {
     @autoreleasepool {
         SDL_JoystickDeviceItem *device = joystick->hwdata;
-        DS5EffectsState_t &state = data;
+        DS5EffectsState_t *state = (DS5EffectsState_t *)&data;
 
         if (device == NULL) {
             return SDL_SetError("Controller is no longer connected");
