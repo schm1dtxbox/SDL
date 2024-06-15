@@ -1732,23 +1732,24 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
 
         if (@available(macOS 10.16, iOS 14.0, tvOS 14.0, *)) {
             GCController *controller = device->controller;
-            let dualSense = controller.physicalInputProfile;
+            GCExtendedGamepad *dualSense = controller.extendedGamepad;
             if ( !IsControllerPS5(controller) ) {
-                return;
+                return 0;
             }
-            let adaptiveTrigger = dualSense.rightTrigger;
-            let resistiveStrength = min(1, 0.4 + adaptiveTrigger.value);
+            GCDualSenseAdaptiveTrigger *adaptiveTrigger = dualSense.rightTrigger;
+            float resistiveStrength = SDL_min(1, 0.4 + adaptiveTrigger.value);
             if ( adaptiveTrigger.value < 0.9 ) {
               adaptiveTrigger.setModeFeedbackWithStartPosition(
                 0,
-                resistiveStrength: resistiveStrength);
+                resistiveStrength);
             } else {
               adaptiveTrigger.setModeVibrationWithStartPosition(
                 0,
-                amplitude: resistiveStrength,
-                frequency: 0.03);
+                resistiveStrength,
+                0.03);
             }
         }
+        return 0;
     }
 }
 
