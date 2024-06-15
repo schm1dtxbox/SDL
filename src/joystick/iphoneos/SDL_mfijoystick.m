@@ -1734,14 +1734,14 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
             GCController *controller = device->controller;
             GCExtendedGamepad* gamepad = controller.extendedGamepad;
             GCDualSenseGamepad* dualSense = (GCDualSenseGamepad*)gamepad;
-            //GCDualSenseAdaptiveTrigger *adaptiveTrigger = dualSense.rightTrigger;
+            GCDualSenseAdaptiveTrigger *adaptiveTrigger = dualSense.rightTrigger;
             float resistiveStrength = SDL_min(1, 0.4 + adaptiveTrigger.value);
-            if ( dualSense.rightTrigger.value < 0.9 ) {
-              dualSense.rightTrigger.setModeFeedbackWithStartPosition(
+            if ( adaptiveTrigger.value < 0.9 ) {
+              adaptiveTrigger.setModeFeedbackWithStartPosition:
                 0,
-                resistiveStrength);
+                resistiveStrength;
             } else {
-              dualSense.rightTrigger.setModeVibrationWithStartPosition(
+              adaptiveTrigger.setModeVibrationWithStartPosition:
                 0,
                 resistiveStrength,
                 0.03);
