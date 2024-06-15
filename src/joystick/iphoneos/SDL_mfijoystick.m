@@ -1728,12 +1728,12 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
 
         if (@available(macOS 10.16, iOS 14.0, tvOS 14.0, *)) {
             GCController *controller = device->controller;
-            guard let dualSense = controller.physicalInputProfile as? GCDualSenseGamepad
+            dualSense = controller.physicalInputProfile as? GCDualSenseGamepad
                 else {
                     return
                 }
-            let adaptiveTrigger = dualSense.rightTrigger
-            let resistiveStrength = min(1, 0.4 + adaptiveTrigger.value)
+            adaptiveTrigger = dualSense.rightTrigger
+            resistiveStrength = min(1, 0.4 + adaptiveTrigger.value)
             if adaptiveTrigger.value < 0.9 {
               adaptiveTrigger.setModeFeedbackWithStartPosition(
                 0,
