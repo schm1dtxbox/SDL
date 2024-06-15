@@ -1717,6 +1717,10 @@ static int IOS_JoystickSetLED(SDL_Joystick *joystick, Uint8 red, Uint8 green, Ui
     return SDL_Unsupported();
 }
 
+#ifndef let
+#define let __auto_type const 
+#endif
+
 static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int size)
 {
     @autoreleasepool {
@@ -1728,12 +1732,12 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
 
         if (@available(macOS 10.16, iOS 14.0, tvOS 14.0, *)) {
             GCController *controller = device->controller;
-            dualSense = controller.physicalInputProfile as? GCDualSenseGamepad
+            let dualSense = controller.physicalInputProfile as? GCDualSenseGamepad
                 else {
                     return
                 }
-            adaptiveTrigger = dualSense.rightTrigger
-            resistiveStrength = min(1, 0.4 + adaptiveTrigger.value)
+            let adaptiveTrigger = dualSense.rightTrigger
+            let resistiveStrength = min(1, 0.4 + adaptiveTrigger.value)
             if adaptiveTrigger.value < 0.9 {
               adaptiveTrigger.setModeFeedbackWithStartPosition(
                 0,
