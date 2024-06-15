@@ -1734,19 +1734,19 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
             GCController *controller = device->controller;
             let dualSense = controller.physicalInputProfile;
             if ( !IsControllerPS5(controller) ) {
-                return
+                return;
             }
-            let adaptiveTrigger = dualSense.rightTrigger
-            let resistiveStrength = min(1, 0.4 + adaptiveTrigger.value)
-            if adaptiveTrigger.value < 0.9 {
+            let adaptiveTrigger = dualSense.rightTrigger;
+            let resistiveStrength = min(1, 0.4 + adaptiveTrigger.value);
+            if ( adaptiveTrigger.value < 0.9 ) {
               adaptiveTrigger.setModeFeedbackWithStartPosition(
                 0,
-                resistiveStrength: resistiveStrength)
+                resistiveStrength: resistiveStrength);
             } else {
               adaptiveTrigger.setModeVibrationWithStartPosition(
                 0,
                 amplitude: resistiveStrength,
-                frequency: 0.03)
+                frequency: 0.03);
             }
         }
     }
