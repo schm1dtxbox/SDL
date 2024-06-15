@@ -1750,6 +1750,8 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
 {
     @autoreleasepool {
         Uint8 ldata[78];
+        Uint8 ubHdr;
+        Uint32 unCRC;
         int report_size, offset;
         SDL_zeroa(ldata);
 
@@ -1761,8 +1763,6 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
     
         SDL_memcpy(&ldata[offset], data, SDL_min((sizeof(ldata) - offset), (size_t)size));
         /* Bluetooth reports need a CRC at the end of the packet (at least on Linux) */
-        Uint8 ubHdr;
-        Uint32 unCRC;
         ubHdr = 0xA2; /* hidp header is part of the CRC calculation */
         unCRC = SDL_crc32(0, &ubHdr, 1);
         unCRC = SDL_crc32(unCRC, ldata, (size_t)(report_size - sizeof(unCRC)));
