@@ -1737,10 +1737,12 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
             GCDualSenseAdaptiveTrigger *adaptiveTrigger = dualSense.rightTrigger;
             float resistiveStrength = SDL_min(1, 0.4 + adaptiveTrigger.value);
             if ( adaptiveTrigger.value < 0.9 ) {
+              [GCDualSenseAdaptiveTrigger setModeFeedbackWithStartPosition];
               [adaptiveTrigger setModeFeedbackWithStartPosition:
                 0,
                 resistiveStrength];
             } else {
+              [GCDualSenseAdaptiveTrigger setModeVibrationWithStartPosition];
               [adaptiveTrigger setModeVibrationWithStartPosition:
                 0,
                 resistiveStrength,
