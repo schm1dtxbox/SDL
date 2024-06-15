@@ -45,5 +45,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v4.3.3
       with:
-        path: build/
+        path: build/libSDL2-2.0.0.dylib
                 
