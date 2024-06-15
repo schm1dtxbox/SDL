@@ -1,0 +1,44 @@
+name: Build
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  Build:
+    name: Mac OS X
+    runs-on: macos-latest 
+
+    defaults:
+      run:
+        shell: sh
+
+    strategy:
+      fail-fast: false         
+
+    steps:
+    - name: Setup Macos dependencies
+      run: |
+        brew install \
+          autoconf \
+          ninja \
+          pkg-config
+
+    - uses: actions/checkout@v4
+    - name: Configure (CMake)
+      run: |
+        cmake -S . -B build -G Ninja \
+        -DSDL_TESTS=ON \
+        -DSDL_WERROR=ON \
+        -DSDL_INSTALL_TESTS=ON \
+        -DSDL_VENDOR_INFO="Github Workflow" \
+        -DCMAKE_INSTALL_PREFIX=cmake_prefix \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_OSX_ARCHITECTURES="arm64"
+    - name: Build (CMake)
+      run: |
+        cmake --build build/ --config Release --verbose --parallel
+    - name: Install (CMake)
+      run: |
+        set -eu
+        cmake --install build/ --config Release
+        echo "SDL2_DIR=$(pwd)/cmake_prefix" >> $GITHUB_ENV
+        ( cd cmake_prefix; find ) | LC_ALL=C sort -u
