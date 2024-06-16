@@ -87,7 +87,6 @@ typedef enum
 -(void) windowDidChangeScreenProfile:(NSNotification *) aNotification;
 -(void) windowDidChangeScreen:(NSNotification *) aNotification;
 -(void) windowWillEnterFullScreen:(NSNotification *) aNotification;
--(void) applicationWillHide:(NSNotification *) aNotification;
 -(void) windowDidEnterFullScreen:(NSNotification *) aNotification;
 -(void) windowWillExitFullScreen:(NSNotification *) aNotification;
 -(void) windowDidExitFullScreen:(NSNotification *) aNotification;
