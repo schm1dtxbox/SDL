@@ -295,7 +295,10 @@ SDL_GLContext Cocoa_GL_CreateContext(_THIS, SDL_Window * window)
 
     attr[i++] = NSOpenGLPFAAllowOfflineRenderers;
 
-    profile = NSOpenGLProfileVersion4_1Core;
+    profile = NSOpenGLProfileVersionLegacy;
+    if (_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_CORE) {
+        profile = NSOpenGLProfileVersion3_2Core;
+    }
     
     attr[i++] = NSOpenGLPFAOpenGLProfile;
     attr[i++] = profile;
@@ -306,9 +309,7 @@ SDL_GLContext Cocoa_GL_CreateContext(_THIS, SDL_Window * window)
     attr[i++] = NSOpenGLPFADepthSize;
     attr[i++] = _this->gl_config.depth_size;
 
-    if (_this->gl_config.double_buffer) {
-        attr[i++] = NSOpenGLPFADoubleBuffer;
-    }
+    attr[i++] = NSOpenGLPFATripleBuffer;
 
     if (_this->gl_config.stereo) {
         attr[i++] = NSOpenGLPFAStereo;
