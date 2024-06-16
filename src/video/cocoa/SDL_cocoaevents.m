@@ -302,7 +302,8 @@ static void Cocoa_DispatchEvent(NSEvent *theEvent)
     [[NSApplication sharedApplication]
      setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
                              | NSApplicationPresentationHideDock
-                             | NSApplicationPresentationDisableHideApplication];
+                             | NSApplicationPresentationDisableHideApplication
+                             | NSApplicationPresentationFullScreen];
 
     /* If we call this before NSApp activation, macOS might print a complaint
      * about ApplePersistenceIgnoreState. */
