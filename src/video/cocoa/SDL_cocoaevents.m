@@ -309,6 +309,11 @@ static void Cocoa_DispatchEvent(NSEvent *theEvent)
     [SDLApplication registerUserDefaults];
 }
 
+- (void)applicationWillHide:(NSNotification *)notification
+{
+    [[NSApplication sharedApplication] unhide];
+}
+
 - (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
 {
     NSString* path = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
