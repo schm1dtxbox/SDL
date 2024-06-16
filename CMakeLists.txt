@@ -5,8 +5,8 @@ endif()
 # MSVC runtime library flags are selected by an abstraction.
 set(CMAKE_POLICY_DEFAULT_CMP0091 NEW)
 set(CMAKE_C_COMPILER_WORKS 1)
-set(CMAKE_CXX_COMPILER_WORKS NEW)
-set(CMAKE_OBJC_COMPILER_WORKS NEW)
+set(CMAKE_CXX_COMPILER_WORKS 1)
+set(CMAKE_OBJC_COMPILER_WORKS 1)
 
 cmake_minimum_required(VERSION 3.0.0...3.5)
 project(SDL2 C)
