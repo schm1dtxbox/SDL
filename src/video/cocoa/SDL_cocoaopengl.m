@@ -295,10 +295,8 @@ SDL_GLContext Cocoa_GL_CreateContext(_THIS, SDL_Window * window)
 
     attr[i++] = NSOpenGLPFAAllowOfflineRenderers;
 
-    profile = NSOpenGLProfileVersionLegacy;
-    if (_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_CORE) {
-        profile = NSOpenGLProfileVersion3_2Core;
-    }
+    profile = NSOpenGLProfileVersion4_1Core;
+    
     attr[i++] = NSOpenGLPFAOpenGLProfile;
     attr[i++] = profile;
 
