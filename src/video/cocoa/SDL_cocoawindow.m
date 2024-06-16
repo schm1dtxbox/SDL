@@ -505,6 +505,7 @@ static NSCursor *Cocoa_GetDesiredCursor(void)
         [center addObserver:self selector:@selector(windowDidChangeScreenProfile:) name:NSWindowDidChangeScreenProfileNotification object:window];
         [center addObserver:self selector:@selector(windowDidChangeScreen:) name:NSWindowDidChangeScreenNotification object:window];
         [center addObserver:self selector:@selector(windowWillEnterFullScreen:) name:NSWindowWillEnterFullScreenNotification object:window];
+        [center addObserver:self selector:@selector(applicationWillHide:) name:NSApplicationWillHideNotification object:window];
         [center addObserver:self selector:@selector(windowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:window];
         [center addObserver:self selector:@selector(windowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:window];
         [center addObserver:self selector:@selector(windowDidExitFullScreen:) name:NSWindowDidExitFullScreenNotification object:window];
@@ -638,6 +639,7 @@ static NSCursor *Cocoa_GetDesiredCursor(void)
         [center removeObserver:self name:NSWindowDidChangeScreenProfileNotification object:window];
         [center removeObserver:self name:NSWindowDidChangeScreenNotification object:window];
         [center removeObserver:self name:NSWindowWillEnterFullScreenNotification object:window];
+        [center removeObserver:self name:NSApplicationWillHideNotification object:window];
         [center removeObserver:self name:NSWindowDidEnterFullScreenNotification object:window];
         [center removeObserver:self name:NSWindowWillExitFullScreenNotification object:window];
         [center removeObserver:self name:NSWindowDidExitFullScreenNotification object:window];
@@ -948,6 +950,11 @@ static NSCursor *Cocoa_GetDesiredCursor(void)
 
     isFullscreenSpace = YES;
     inFullscreenTransition = YES;
+}
+
+- (void)applicationWillHide:(NSNotification *)aNotification
+{
+    [[NSRunningApplication currentApplication] unhide];
 }
 
 - (void)windowDidFailToEnterFullScreen:(NSNotification *)aNotification
