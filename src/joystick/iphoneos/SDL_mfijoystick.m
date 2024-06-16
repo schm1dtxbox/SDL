@@ -1780,7 +1780,7 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
             if ( state->rgucRightTriggerEffect[0] == 0x25 ) {
               [rightadaptiveTrigger setModeWeaponWithStartPosition: 0.22
                 endPosition: 0.36
-                resistiveStrength: ( ( 2 + state->rgucRightTriggerEffect[3] ) / 8.f ) ];
+                resistiveStrength: ( ( 3 + state->rgucRightTriggerEffect[3] ) / 8.f ) ];
             } else if ( state->rgucRightTriggerEffect[0] == 0x06 ) {
               [rightadaptiveTrigger setModeVibrationWithStartPosition: 0.5
                 amplitude: 1.0
@@ -1793,7 +1793,7 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
             if ( state->rgucLeftTriggerEffect[0] == 0x25 ) {
               [leftadaptiveTrigger setModeWeaponWithStartPosition: 0.22
                 endPosition: 0.36
-                resistiveStrength: ( ( 2 + state->rgucLeftTriggerEffect[3] ) / 8.f ) ];
+                resistiveStrength: ( ( 3 + state->rgucLeftTriggerEffect[3] ) / 8.f ) ];
             } else {
               [leftadaptiveTrigger setModeOff];
             }
