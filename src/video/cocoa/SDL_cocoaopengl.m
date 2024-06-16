@@ -309,7 +309,9 @@ SDL_GLContext Cocoa_GL_CreateContext(_THIS, SDL_Window * window)
     attr[i++] = NSOpenGLPFADepthSize;
     attr[i++] = _this->gl_config.depth_size;
 
-    attr[i++] = NSOpenGLPFATripleBuffer;
+    if (_this->gl_config.double_buffer) {
+        attr[i++] = NSOpenGLPFATripleBuffer;
+    }
 
     if (_this->gl_config.stereo) {
         attr[i++] = NSOpenGLPFAStereo;
