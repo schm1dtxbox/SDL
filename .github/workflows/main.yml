@@ -31,6 +31,7 @@ jobs:
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_C_COMPILER_WORKS=1 \
         -DCMAKE_CXX_COMPILER_WORKS=1 \
+        -DCMAKE_OBJC_COMPILER_WORKS=1 \
         -DCMAKE_OSX_ARCHITECTURES="arm64"
     - name: Build
       run: |
