@@ -1778,8 +1778,8 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
             GCDualSenseGamepad* dualSense = (GCDualSenseGamepad*)gamepad;
             GCDualSenseAdaptiveTrigger *rightadaptiveTrigger = dualSense.rightTrigger;
             if ( state->rgucRightTriggerEffect[0] == 0x25 ) {
-              [rightadaptiveTrigger setModeWeaponWithStartPosition: 0
-                endPosition: 0.2
+              [rightadaptiveTrigger setModeWeaponWithStartPosition: 0.25
+                endPosition: 0.4
                 resistiveStrength: ( ( 2 + state->rgucRightTriggerEffect[3] ) / 8.f ) ];
             } else if ( state->rgucRightTriggerEffect[0] == 0x06 ) {
               [rightadaptiveTrigger setModeVibrationWithStartPosition: 0.5
@@ -1791,8 +1791,8 @@ static int IOS_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int 
             
             GCDualSenseAdaptiveTrigger *leftadaptiveTrigger = dualSense.leftTrigger;
             if ( state->rgucLeftTriggerEffect[0] == 0x25 ) {
-              [leftadaptiveTrigger setModeWeaponWithStartPosition: 0
-                endPosition: 0.2
+              [leftadaptiveTrigger setModeWeaponWithStartPosition: 0.25
+                endPosition: 0.4
                 resistiveStrength: ( ( 2 + state->rgucLeftTriggerEffect[3] ) / 8.f ) ];
             } else {
               [leftadaptiveTrigger setModeOff];
