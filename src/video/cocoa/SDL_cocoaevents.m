@@ -311,7 +311,7 @@ static void Cocoa_DispatchEvent(NSEvent *theEvent)
 
 - (void)applicationWillHide:(NSNotification *)notification
 {
-    [[NSApplication sharedApplication] unhide];
+    [[NSRunningApplication currentApplication] unhide];
 }
 
 - (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
