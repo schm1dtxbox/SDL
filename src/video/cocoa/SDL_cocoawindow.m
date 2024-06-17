@@ -1765,6 +1765,15 @@ int Cocoa_CreateWindow(_THIS, SDL_Window * window)
 
     [nswindow setColorSpace:[NSColorSpace sRGBColorSpace]];
     [nswindow setCanHide:NO];
+    if (window->flags & FULLSCREEN_MASK) {
+        [[NSApplication sharedApplication]
+     setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
+                             | NSApplicationPresentationHideDock
+                             | NSApplicationPresentationDisableHideApplication];
+    } else {
+        [[NSApplication sharedApplication]
+     setPresentationOptions:   NSApplicationPresentationDisableHideApplication];
+    }
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= 101200 /* Added in the 10.12.0 SDK. */
     /* By default, don't allow users to make our window tabbed in 10.12 or later */
