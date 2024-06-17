@@ -279,7 +279,7 @@ void SDL_SetDefaultCursor(SDL_Cursor *cursor)
 
 SDL_Mouse *SDL_GetMouse(void)
 {
-    return &SDL_mouse;
+    return NULL;
 }
 
 static Uint32 GetButtonState(SDL_Mouse *mouse, SDL_bool include_touch)
