@@ -2162,7 +2162,7 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
         [nswindow setFrame:NSMakeRect(frameRect.origin.x, frameRect.origin.y, frameRect.size.width + 1, frameRect.size.height) display:NO];
         [nswindow setFrame:frameRect display:NO];
         [[NSApplication sharedApplication]
-     setPresentationOptions:   NSApplicationPresentationDefault];
+     setPresentationOptions:   NSApplicationPresentationDisableHideApplication];
     }
 
     /* The view responder chain gets messed with during setStyleMask */
