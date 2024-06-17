@@ -2137,6 +2137,10 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
         }
 
         [nswindow setStyleMask:NSWindowStyleMaskBorderless];
+        [[NSApplication sharedApplication]
+     setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
+                             | NSApplicationPresentationHideDock
+                             | NSApplicationPresentationDisableHideApplication];
     } else {
         NSRect frameRect;
         rect.origin.x = window->windowed.x;
@@ -2157,6 +2161,8 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
         frameRect = [nswindow frame];
         [nswindow setFrame:NSMakeRect(frameRect.origin.x, frameRect.origin.y, frameRect.size.width + 1, frameRect.size.height) display:NO];
         [nswindow setFrame:frameRect display:NO];
+        [[NSApplication sharedApplication]
+     setPresentationOptions:   NSApplicationPresentationDefault];
     }
 
     /* The view responder chain gets messed with during setStyleMask */
