@@ -482,10 +482,10 @@ dep_option(SDL_KMSDRM_SHARED       "Dynamically load KMS DRM support" ON "SDL_KM
 set_option(SDL_OFFSCREEN           "Use offscreen video driver" ON)
 option_string(SDL_BACKGROUNDING_SIGNAL "number to use for magic backgrounding signal or 'OFF'" OFF)
 option_string(SDL_FOREGROUNDING_SIGNAL "number to use for magic foregrounding signal or 'OFF'" OFF)
-set_option(SDL_HIDAPI              "Enable the HIDAPI subsystem" ON)
+set_option(SDL_HIDAPI              "Enable the HIDAPI subsystem" OFF)
 dep_option(SDL_HIDAPI_LIBUSB       "Use libusb for low level joystick drivers" OFF SDL_HIDAPI OFF)
-dep_option(SDL_HIDAPI_JOYSTICK     "Use HIDAPI for low level joystick drivers" ON SDL_HIDAPI OFF)
-dep_option(SDL_VIRTUAL_JOYSTICK    "Enable the virtual-joystick driver" ON SDL_HIDAPI OFF)
+dep_option(SDL_HIDAPI_JOYSTICK     "Use HIDAPI for low level joystick drivers" OFF SDL_HIDAPI OFF)
+dep_option(SDL_VIRTUAL_JOYSTICK    "Enable the virtual-joystick driver" OFF SDL_HIDAPI OFF)
 set_option(SDL_LIBUDEV             "Enable libudev support" ON)
 set_option(SDL_ASAN                "Use AddressSanitizer to detect memory errors" OFF)
 option_string(SDL_VENDOR_INFO      "Vendor name and/or version to add to SDL_REVISION" "")
@@ -2114,59 +2114,20 @@ elseif(APPLE)
 
   if(SDL_JOYSTICK)
     file(GLOB MFI_JOYSTICK_SOURCES ${SDL2_SOURCE_DIR}/src/joystick/iphoneos/*.m)
-    if(IOS OR TVOS)
-      file(GLOB JOYSTICK_SOURCES ${SDL2_SOURCE_DIR}/src/joystick/steam/*.c)
-      set(SDL_JOYSTICK_MFI 1)
-      if(IOS)
-        set(SDL_FRAMEWORK_COREMOTION 1)
-      endif()
-      set(SDL_FRAMEWORK_GAMECONTROLLER 1)
-      set(SDL_FRAMEWORK_COREHAPTICS 1)
-    else()
-      file(GLOB JOYSTICK_SOURCES ${SDL2_SOURCE_DIR}/src/joystick/darwin/*.c)
-      set_property(SOURCE ${MFI_JOYSTICK_SOURCES} APPEND_STRING PROPERTY COMPILE_FLAGS " -fobjc-weak")
-      check_objc_source_compiles("
-          #include <AvailabilityMacros.h>
-          #include <TargetConditionals.h>
-          #import <Foundation/Foundation.h>
-          #import <GameController/GameController.h>
-          #if MAC_OS_X_VERSION_MIN_REQUIRED < 1080
-          #error GameController framework doesn't work on this configuration
-          #endif
-          #if TARGET_CPU_X86
-          #error GameController framework doesn't work on this configuration
-          #endif
-          int main() { return 0; }" HAVE_FRAMEWORK_GAMECONTROLLER)
-      check_objc_source_compiles("
-          #include <AvailabilityMacros.h>
-          #include <TargetConditionals.h>
-          #import <Foundation/Foundation.h>
-          #import <CoreHaptics/CoreHaptics.h>
-          int main() { return 0; }" HAVE_FRAMEWORK_COREHAPTICS)
-      if(HAVE_FRAMEWORK_GAMECONTROLLER AND HAVE_FRAMEWORK_COREHAPTICS)
-        # Only enable MFI if we also have CoreHaptics to ensure rumble works
-        set(SDL_JOYSTICK_MFI 1)
-        set(SDL_FRAMEWORK_GAMECONTROLLER 1)
-        set(SDL_FRAMEWORK_COREHAPTICS 1)
-      endif()
-      set(SDL_JOYSTICK_IOKIT 1)
-      set(SDL_FRAMEWORK_IOKIT 1)
-      set(SDL_FRAMEWORK_FF 1)
+    file(GLOB JOYSTICK_SOURCES ${SDL2_SOURCE_DIR}/src/joystick/steam/*.c)
+    set(SDL_JOYSTICK_MFI 1)
+    if(IOS)
+      set(SDL_FRAMEWORK_COREMOTION 1)
     endif()
+    set(SDL_FRAMEWORK_GAMECONTROLLER 1)
+    set(SDL_FRAMEWORK_COREHAPTICS 1)
     list(APPEND SOURCE_FILES ${JOYSTICK_SOURCES} ${MFI_JOYSTICK_SOURCES})
     set(HAVE_SDL_JOYSTICK TRUE)
   endif()
 
   if(SDL_HAPTIC)
-    if (IOS OR TVOS)
-      file(GLOB HAPTIC_SOURCES ${SDL2_SOURCE_DIR}/src/haptic/dummy/*.c)
-      set(SDL_HAPTIC_DUMMY 1)
-    else()
-      file(GLOB HAPTIC_SOURCES ${SDL2_SOURCE_DIR}/src/haptic/darwin/*.c)
-      set(SDL_HAPTIC_IOKIT 1)
-      set(SDL_FRAMEWORK_IOKIT 1)
-      set(SDL_FRAMEWORK_FF 1)
-    endif()
+    file(GLOB HAPTIC_SOURCES ${SDL2_SOURCE_DIR}/src/haptic/dummy/*.c)
+    set(SDL_HAPTIC_DUMMY 1)
     list(APPEND SOURCE_FILES ${HAPTIC_SOURCES})
     set(HAVE_SDL_HAPTIC TRUE)
   endif()
