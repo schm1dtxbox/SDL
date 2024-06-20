@@ -159,11 +159,7 @@
 
 /* Enable various input drivers */
 #define SDL_HIDAPI_DISABLED 1
-
-/* The MFI controller support requires ARC Objective C runtime */
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= 1080 && !defined(__i386__)
 #define SDL_JOYSTICK_MFI 1
-#endif
 
 /* Enable the dummy sensor driver */
 #define SDL_SENSOR_DUMMY  1
