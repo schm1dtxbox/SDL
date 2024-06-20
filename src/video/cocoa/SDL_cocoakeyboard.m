@@ -28,8 +28,6 @@
 #include "../../events/SDL_keyboard_c.h"
 #include "../../events/scancodes_darwin.h"
 
-#include <Carbon/Carbon.h>
-
 /*#define DEBUG_IME NSLog */
 #define DEBUG_IME(...)
 
