@@ -241,93 +241,16 @@ static SDL_Window *SDL_FindWindowAtPoint(const int x, const int y)
 
 static int Cocoa_WarpMouseGlobal(int x, int y)
 {
-    CGPoint point;
-    SDL_Mouse *mouse = SDL_GetMouse();
-    if (mouse->focus) {
-        SDL_WindowData *data = (__bridge SDL_WindowData *) mouse->focus->driverdata;
-        if ([data.listener isMovingOrFocusClickPending]) {
-            DLog("Postponing warp, window being moved or focused.");
-            [data.listener setPendingMoveX:x Y:y];
-            return 0;
-        }
-    }
-    point = CGPointMake((float)x, (float)y);
-
-    Cocoa_HandleMouseWarp(point.x, point.y);
-
-    CGWarpMouseCursorPosition(point);
-
-    /* CGWarpMouse causes a short delay by default, which is preventable by
-     * Calling this directly after. CGSetLocalEventsSuppressionInterval can also
-     * prevent it, but it's deprecated as of OS X 10.6.
-     */
-    if (!mouse->relative_mode) {
-        CGAssociateMouseAndMouseCursorPosition(YES);
-    }
-
-    /* CGWarpMouseCursorPosition doesn't generate a window event, unlike our
-     * other implementations' APIs. Send what's appropriate.
-     */
-    if (!mouse->relative_mode) {
-        SDL_Window *win = SDL_FindWindowAtPoint(x, y);
-        SDL_SetMouseFocus(win);
-        if (win) {
-            SDL_assert(win == mouse->focus);
-            SDL_SendMouseMotion(win, mouse->mouseID, 0, x - win->x, y - win->y);
-        }
-    }
-
     return 0;
 }
 
 static void Cocoa_WarpMouse(SDL_Window * window, int x, int y)
 {
-    Cocoa_WarpMouseGlobal(window->x + x, window->y + y);
+    return;
 }
 
 static int Cocoa_SetRelativeMouseMode(SDL_bool enabled)
 {
-    SDL_Window *window = SDL_GetKeyboardFocus();
-    CGError result;
-    SDL_WindowData *data;
-    if (enabled) {
-        if (window) {
-            /* make sure the mouse isn't at the corner of the window, as this can confuse things if macOS thinks a window resize is happening on the first click. */
-            SDL_MouseData *mousedriverdata = (SDL_MouseData*)SDL_GetMouse()->driverdata;
-            const CGPoint point = CGPointMake((float)(window->x + (window->w / 2)), (float)(window->y + (window->h / 2)));
-            if (mousedriverdata) {
-                mousedriverdata->justEnabledRelative = SDL_TRUE;
-            }
-            CGWarpMouseCursorPosition(point);
-        }
-        DLog("Turning on.");
-        result = CGAssociateMouseAndMouseCursorPosition(NO);
-    } else {
-        DLog("Turning off.");
-        result = CGAssociateMouseAndMouseCursorPosition(YES);
-    }
-    if (result != kCGErrorSuccess) {
-        return SDL_SetError("CGAssociateMouseAndMouseCursorPosition() failed");
-    }
-
-    /* We will re-apply the non-relative mode when the window gets focus, if it
-     * doesn't have focus right now.
-     */
-    if (!window) {
-        return 0;
-    }
-
-    /* We will re-apply the non-relative mode when the window finishes being moved,
-     * if it is being moved right now.
-     */
-    data = (__bridge SDL_WindowData *) window->driverdata;
-    if ([data.listener isMovingOrFocusClickPending]) {
-        return 0;
-    }
-
-    /* The hide/unhide calls are redundant most of the time, but they fix
-     * https://bugzilla.libsdl.org/show_bug.cgi?id=2550
-     */
     if (enabled) {
         [NSCursor hide];
     } else {
