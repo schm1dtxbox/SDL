@@ -157,6 +157,9 @@
 #define SDL_AUDIO_DRIVER_DISK   1
 #define SDL_AUDIO_DRIVER_DUMMY  1
 
+/* Enable the stub haptic driver (src/haptic/dummy/\*.c) */
+#define SDL_HAPTIC_DUMMY 1
+
 /* Enable various input drivers */
 #define SDL_HIDAPI_DISABLED 1
 #define SDL_JOYSTICK_MFI 1
