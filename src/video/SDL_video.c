@@ -1603,17 +1603,6 @@ static void SDL_FinishWindowCreation(SDL_Window *window, Uint32 flags)
     if (flags & SDL_WINDOW_FULLSCREEN) {
         SDL_SetWindowFullscreen(window, flags);
     }
-    if (flags & SDL_WINDOW_MOUSE_GRABBED) {
-        /* We must specifically call SDL_SetWindowGrab() and not
-           SDL_SetWindowMouseGrab() here because older applications may use
-           this flag plus SDL_HINT_GRAB_KEYBOARD to indicate that they want
-           the keyboard grabbed too and SDL_SetWindowMouseGrab() won't do that.
-        */
-        SDL_SetWindowGrab(window, SDL_TRUE);
-    }
-    if (flags & SDL_WINDOW_KEYBOARD_GRABBED) {
-        SDL_SetWindowKeyboardGrab(window, SDL_TRUE);
-    }
     if (!(flags & SDL_WINDOW_HIDDEN)) {
         SDL_ShowWindow(window);
     }
@@ -2966,38 +2955,9 @@ void SDL_UpdateWindowGrab(SDL_Window * window)
 {
     SDL_bool keyboard_grabbed, mouse_grabbed;
 
-    if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
-        if (SDL_GetMouse()->relative_mode || (window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
-            mouse_grabbed = SDL_TRUE;
-        } else {
-            mouse_grabbed = SDL_FALSE;
-        }
-
-        if (window->flags & SDL_WINDOW_KEYBOARD_GRABBED) {
-            keyboard_grabbed = SDL_TRUE;
-        } else {
-            keyboard_grabbed = SDL_FALSE;
-        }
-    } else {
-        mouse_grabbed = SDL_FALSE;
-        keyboard_grabbed = SDL_FALSE;
-    }
-
-    if (mouse_grabbed || keyboard_grabbed) {
-        if (_this->grabbed_window && (_this->grabbed_window != window)) {
-            /* stealing a grab from another window! */
-            _this->grabbed_window->flags &= ~(SDL_WINDOW_MOUSE_GRABBED | SDL_WINDOW_KEYBOARD_GRABBED);
-            if (_this->SetWindowMouseGrab) {
-                _this->SetWindowMouseGrab(_this, _this->grabbed_window, SDL_FALSE);
-            }
-            if (_this->SetWindowKeyboardGrab) {
-                _this->SetWindowKeyboardGrab(_this, _this->grabbed_window, SDL_FALSE);
-            }
-        }
-        _this->grabbed_window = window;
-    } else if (_this->grabbed_window == window) {
-        _this->grabbed_window = NULL; /* ungrabbing input. */
-    }
+    mouse_grabbed = SDL_FALSE;
+    keyboard_grabbed = SDL_FALSE;
+    _this->grabbed_window = NULL; /* ungrabbing input. */
 
     if (_this->SetWindowMouseGrab) {
         _this->SetWindowMouseGrab(_this, window, mouse_grabbed);
@@ -3011,41 +2971,21 @@ void SDL_SetWindowGrab(SDL_Window *window, SDL_bool grabbed)
 {
     CHECK_WINDOW_MAGIC(window, );
 
-    SDL_SetWindowMouseGrab(window, grabbed);
-
-    if (SDL_GetHintBoolean(SDL_HINT_GRAB_KEYBOARD, SDL_FALSE)) {
-        SDL_SetWindowKeyboardGrab(window, grabbed);
-    }
+    return;
 }
 
 void SDL_SetWindowKeyboardGrab(SDL_Window *window, SDL_bool grabbed)
 {
     CHECK_WINDOW_MAGIC(window, );
 
-    if (!!grabbed == !!(window->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
-        return;
-    }
-    if (grabbed) {
-        window->flags |= SDL_WINDOW_KEYBOARD_GRABBED;
-    } else {
-        window->flags &= ~SDL_WINDOW_KEYBOARD_GRABBED;
-    }
-    SDL_UpdateWindowGrab(window);
+    return;
 }
 
 void SDL_SetWindowMouseGrab(SDL_Window *window, SDL_bool grabbed)
 {
     CHECK_WINDOW_MAGIC(window, );
 
-    if (!!grabbed == !!(window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
-        return;
-    }
-    if (grabbed) {
-        window->flags |= SDL_WINDOW_MOUSE_GRABBED;
-    } else {
-        window->flags &= ~SDL_WINDOW_MOUSE_GRABBED;
-    }
-    SDL_UpdateWindowGrab(window);
+    return;
 }
 
 SDL_bool SDL_GetWindowGrab(SDL_Window *window)
@@ -3056,38 +2996,24 @@ SDL_bool SDL_GetWindowGrab(SDL_Window *window)
 SDL_bool SDL_GetWindowKeyboardGrab(SDL_Window *window)
 {
     CHECK_WINDOW_MAGIC(window, SDL_FALSE);
-    return window == _this->grabbed_window && (_this->grabbed_window->flags & SDL_WINDOW_KEYBOARD_GRABBED);
+    return SDL_FALSE;
 }
 
 SDL_bool SDL_GetWindowMouseGrab(SDL_Window *window)
 {
     CHECK_WINDOW_MAGIC(window, SDL_FALSE);
-    return window == _this->grabbed_window && (_this->grabbed_window->flags & SDL_WINDOW_MOUSE_GRABBED);
+    return SDL_FALSE;
 }
 
 SDL_Window *SDL_GetGrabbedWindow(void)
 {
-    if (_this->grabbed_window &&
-        (_this->grabbed_window->flags & (SDL_WINDOW_MOUSE_GRABBED | SDL_WINDOW_KEYBOARD_GRABBED))) {
-        return _this->grabbed_window;
-    } else {
-        return NULL;
-    }
+    return NULL;
 }
 
 int SDL_SetWindowMouseRect(SDL_Window *window, const SDL_Rect *rect)
 {
     CHECK_WINDOW_MAGIC(window, -1);
 
-    if (rect) {
-        SDL_memcpy(&window->mouse_rect, rect, sizeof(*rect));
-    } else {
-        SDL_zero(window->mouse_rect);
-    }
-
-    if (_this->SetWindowMouseRect) {
-        _this->SetWindowMouseRect(_this, window);
-    }
     return 0;
 }
 
@@ -3095,11 +3021,7 @@ const SDL_Rect *SDL_GetWindowMouseRect(SDL_Window *window)
 {
     CHECK_WINDOW_MAGIC(window, NULL);
 
-    if (SDL_RectEmpty(&window->mouse_rect)) {
-        return NULL;
-    } else {
-        return &window->mouse_rect;
-    }
+    return NULL;
 }
 
 int SDL_FlashWindow(SDL_Window *window, SDL_FlashOperation operation)
