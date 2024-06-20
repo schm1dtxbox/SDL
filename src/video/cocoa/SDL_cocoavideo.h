@@ -34,7 +34,6 @@
 
 #include "SDL_cocoaclipboard.h"
 #include "SDL_cocoaevents.h"
-#include "SDL_cocoakeyboard.h"
 #include "SDL_cocoamodes.h"
 #include "SDL_cocoamouse.h"
 #include "SDL_cocoaopengl.h"
