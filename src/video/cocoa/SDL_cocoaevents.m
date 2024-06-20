@@ -79,24 +79,6 @@ static void Cocoa_DispatchEvent(NSEvent *theEvent)
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
     switch ([theEvent type]) {
-        case NSEventTypeLeftMouseDown:
-        case NSEventTypeOtherMouseDown:
-        case NSEventTypeRightMouseDown:
-        case NSEventTypeLeftMouseUp:
-        case NSEventTypeOtherMouseUp:
-        case NSEventTypeRightMouseUp:
-        case NSEventTypeLeftMouseDragged:
-        case NSEventTypeRightMouseDragged:
-        case NSEventTypeOtherMouseDragged: /* usually middle mouse dragged */
-        case NSEventTypeMouseMoved:
-        case NSEventTypeScrollWheel:
-            Cocoa_HandleMouseEvent(_this, theEvent);
-            break;
-        case NSEventTypeKeyDown:
-        case NSEventTypeKeyUp:
-        case NSEventTypeFlagsChanged:
-            Cocoa_HandleKeyEvent(_this, theEvent);
-            break;
         default:
             break;
     }
