@@ -159,9 +159,6 @@
 
 /* Enable various input drivers */
 #define SDL_HIDAPI_DISABLED 1
-#define SDL_JOYSTICK_IOKIT  0
-#define SDL_JOYSTICK_VIRTUAL    0
-#define SDL_HAPTIC_IOKIT    0
 
 /* The MFI controller support requires ARC Objective C runtime */
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= 1080 && !defined(__i386__)
