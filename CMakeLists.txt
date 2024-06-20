@@ -2072,7 +2072,6 @@ elseif(APPLE)
   # !!! FIXME:  how to dump those.
   if(DARWIN OR MACOSX)
     set(SDL_FRAMEWORK_COCOA 1)
-    set(SDL_FRAMEWORK_CARBON 1)
   endif()
   set(SDL_FRAMEWORK_FOUNDATION 1)
   set(SDL_FRAMEWORK_COREVIDEO 1)
