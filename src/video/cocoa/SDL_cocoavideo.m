@@ -115,9 +115,6 @@ static SDL_VideoDevice *Cocoa_CreateDevice(void)
     device->GetWindowGammaRamp = Cocoa_GetWindowGammaRamp;
     device->GetWindowICCProfile = Cocoa_GetWindowICCProfile;
     device->GetWindowDisplayIndex = Cocoa_GetWindowDisplayIndex;
-    device->SetWindowMouseRect = Cocoa_SetWindowMouseRect;
-    device->SetWindowMouseGrab = Cocoa_SetWindowMouseGrab;
-    device->SetWindowKeyboardGrab = Cocoa_SetWindowKeyboardGrab;
     device->DestroyWindow = Cocoa_DestroyWindow;
     device->GetWindowWMInfo = Cocoa_GetWindowWMInfo;
     device->SetWindowHitTest = Cocoa_SetWindowHitTest;
@@ -165,10 +162,6 @@ static SDL_VideoDevice *Cocoa_CreateDevice(void)
     device->Metal_GetDrawableSize = Cocoa_Metal_GetDrawableSize;
 #endif
 
-    device->StartTextInput = Cocoa_StartTextInput;
-    device->StopTextInput = Cocoa_StopTextInput;
-    device->SetTextInputRect = Cocoa_SetTextInputRect;
-
     device->SetClipboardText = Cocoa_SetClipboardText;
     device->GetClipboardText = Cocoa_GetClipboardText;
     device->HasClipboardText = Cocoa_HasClipboardText;
@@ -191,10 +184,6 @@ int Cocoa_VideoInit(_THIS)
     SDL_VideoData *data = (__bridge SDL_VideoData *) _this->driverdata;
 
     Cocoa_InitModes(_this);
-    Cocoa_InitKeyboard(_this);
-    if (Cocoa_InitMouse(_this) < 0) {
-        return -1;
-    }
 
     data.allow_spaces = SDL_GetHintBoolean(SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES, SDL_TRUE);
     data.trackpad_is_touch_only = SDL_GetHintBoolean(SDL_HINT_TRACKPAD_IS_TOUCH_ONLY, SDL_FALSE);
@@ -212,8 +201,6 @@ void Cocoa_VideoQuit(_THIS)
 {
     SDL_VideoData *data = (__bridge SDL_VideoData *) _this->driverdata;
     Cocoa_QuitModes(_this);
-    Cocoa_QuitKeyboard(_this);
-    Cocoa_QuitMouse(_this);
     SDL_DestroyMutex(data.swaplock);
     data.swaplock = NULL;
 }}
