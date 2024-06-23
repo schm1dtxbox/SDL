@@ -56,7 +56,7 @@ static SDL_Window *FindSDLWindowForNSWindow(NSWindow *win)
 }
 
 @interface SDLApplication : NSApplication
-
+- (void)terminate:(id)sender;
 - (void)sendEvent:(NSEvent *)theEvent;
 
 + (void)registerUserDefaults;
@@ -64,6 +64,12 @@ static SDL_Window *FindSDLWindowForNSWindow(NSWindow *win)
 @end
 
 @implementation SDLApplication
+
+// Override terminate to handle Quit and System Shutdown smoothly.
+- (void)terminate:(id)sender
+{
+    exit(0);
+}
 
 static SDL_bool s_bShouldHandleEventsInSDLApplication = SDL_FALSE;
 
