@@ -689,8 +689,6 @@ static SDL_bool AdjustCoordinatesForGrab(SDL_Window * window, int x, int y, CGPo
     y = (int)rect.origin.y;
 
     ScheduleContextUpdates(_data);
-
-    SDL_SendWindowEvent(window, SDL_WINDOWEVENT_MOVED, x, y);
 }
 
 - (void)windowDidExpose:(NSNotification *)aNotification
