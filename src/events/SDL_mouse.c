@@ -235,46 +235,7 @@ void SDL_MousePostInit(void)
 
 void SDL_SetDefaultCursor(SDL_Cursor *cursor)
 {
-    SDL_Mouse *mouse = SDL_GetMouse();
-
-    if (cursor == mouse->def_cursor) {
-        return;
-    }
-
-    if (mouse->def_cursor) {
-        SDL_Cursor *default_cursor = mouse->def_cursor;
-        SDL_Cursor *prev, *curr;
-
-        if (mouse->cur_cursor == mouse->def_cursor) {
-            mouse->cur_cursor = NULL;
-        }
-        mouse->def_cursor = NULL;
-
-        for (prev = NULL, curr = mouse->cursors; curr;
-             prev = curr, curr = curr->next) {
-            if (curr == default_cursor) {
-                if (prev) {
-                    prev->next = curr->next;
-                } else {
-                    mouse->cursors = curr->next;
-                }
-
-                break;
-            }
-        }
-
-        if (mouse->FreeCursor && default_cursor->driverdata) {
-            mouse->FreeCursor(default_cursor);
-        } else {
-            SDL_free(default_cursor);
-        }
-    }
-
-    mouse->def_cursor = cursor;
-
-    if (!mouse->cur_cursor) {
-        SDL_SetCursor(cursor);
-    }
+    return;
 }
 
 SDL_Mouse *SDL_GetMouse(void)
@@ -1047,46 +1008,7 @@ SDL_Cursor *SDL_CreateSystemCursor(SDL_SystemCursor id)
  */
 void SDL_SetCursor(SDL_Cursor *cursor)
 {
-    SDL_Mouse *mouse = SDL_GetMouse();
-
-    /* Return immediately if setting the cursor to the currently set one (fixes #7151) */
-    if (cursor == mouse->cur_cursor) {
-        return;
-    }
-
-    /* Set the new cursor */
-    if (cursor) {
-        /* Make sure the cursor is still valid for this mouse */
-        if (cursor != mouse->def_cursor) {
-            SDL_Cursor *found;
-            for (found = mouse->cursors; found; found = found->next) {
-                if (found == cursor) {
-                    break;
-                }
-            }
-            if (!found) {
-                SDL_SetError("Cursor not associated with the current mouse");
-                return;
-            }
-        }
-        mouse->cur_cursor = cursor;
-    } else {
-        if (mouse->focus) {
-            cursor = mouse->cur_cursor;
-        } else {
-            cursor = mouse->def_cursor;
-        }
-    }
-
-    if (cursor && mouse->cursor_shown && !mouse->relative_mode) {
-        if (mouse->ShowCursor) {
-            mouse->ShowCursor(cursor);
-        }
-    } else {
-        if (mouse->ShowCursor) {
-            mouse->ShowCursor(NULL);
-        }
-    }
+    return;
 }
 
 SDL_Cursor *SDL_GetCursor(void)
