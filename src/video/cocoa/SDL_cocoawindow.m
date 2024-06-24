@@ -2200,20 +2200,12 @@ int Cocoa_GetWindowGammaRamp(_THIS, SDL_Window * window, Uint16 * ramp)
 void Cocoa_SetWindowMouseGrab(_THIS, SDL_Window * window, SDL_bool grabbed)
 { @autoreleasepool
 {
-    SDL_WindowData *data = (__bridge SDL_WindowData *) window->driverdata;
-
-    if (data && (window->flags & SDL_WINDOW_FULLSCREEN)) {
-        if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_INPUT_FOCUS)
-            && ![data.listener isInFullscreenSpace]) {
-            /* OpenGL is rendering to the window, so make it visible! */
-            /* Doing this in 10.11 while in a Space breaks things (bug #3152) */
-            [data.nswindow setLevel:NSMainMenuWindowLevel + 1];
-        } else if (window->flags & SDL_WINDOW_ALWAYS_ON_TOP) {
-            [data.nswindow setLevel:NSFloatingWindowLevel];
-        } else {
-            [data.nswindow setLevel:kCGNormalWindowLevel];
-        }
+    if (grabbed) {
+        CGDisplayHideCursor(kCGDirectMainDisplay);
+    } else {
+        CGDisplayShowCursor(kCGDirectMainDisplay);
     }
+    return 0;
 }}
 
 void Cocoa_DestroyWindow(_THIS, SDL_Window * window)
