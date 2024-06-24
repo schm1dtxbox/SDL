@@ -658,37 +658,7 @@ static SDL_bool AdjustCoordinatesForGrab(SDL_Window * window, int x, int y, CGPo
 
 - (void)windowDidMove:(NSNotification *)aNotification
 {
-    int x, y;
-    SDL_Window *window = _data.window;
-    NSWindow *nswindow = _data.nswindow;
-    BOOL fullscreen = window->flags & FULLSCREEN_MASK;
-    NSRect rect = [nswindow contentRectForFrameRect:[nswindow frame]];
-    ConvertNSRect([nswindow screen], fullscreen, &rect);
-
-    if (inFullscreenTransition) {
-        /* We'll take care of this at the end of the transition */
-        return;
-    }
-
-    if (s_moveHack) {
-        SDL_bool blockMove = ((SDL_GetTicks() - s_moveHack) < 500);
-
-        s_moveHack = 0;
-
-        if (blockMove) {
-            /* Cocoa is adjusting the window in response to a mode change */
-            rect.origin.x = window->x;
-            rect.origin.y = window->y;
-            ConvertNSRect([nswindow screen], fullscreen, &rect);
-            [nswindow setFrameOrigin:rect.origin];
-            return;
-        }
-    }
-
-    x = (int)rect.origin.x;
-    y = (int)rect.origin.y;
-
-    ScheduleContextUpdates(_data);
+    return;
 }
 
 - (void)windowDidExpose:(NSNotification *)aNotification
