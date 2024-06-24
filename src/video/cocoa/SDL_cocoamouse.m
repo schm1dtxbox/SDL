@@ -242,9 +242,9 @@ static void Cocoa_WarpMouse(SDL_Window * window, int x, int y)
 static int Cocoa_SetRelativeMouseMode(SDL_bool enabled)
 {
     if (enabled) {
-        [NSCursor hide];
+        CGDisplayHideCursor();
     } else {
-        [NSCursor unhide];
+        CGDisplayShowCursor();
     }
     return 0;
 }
