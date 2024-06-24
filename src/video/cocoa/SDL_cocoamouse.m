@@ -212,16 +212,6 @@ static void Cocoa_FreeCursor(SDL_Cursor * cursor)
 static int Cocoa_ShowCursor(SDL_Cursor * cursor)
 { @autoreleasepool
 {
-    SDL_VideoDevice *device = SDL_GetVideoDevice();
-    SDL_Window *window = (device ? device->windows : NULL);
-    for (; window != NULL; window = window->next) {
-        SDL_WindowData *driverdata = (__bridge SDL_WindowData *)window->driverdata;
-        if (driverdata) {
-            [driverdata.nswindow performSelectorOnMainThread:@selector(invalidateCursorRectsForView:)
-                                                  withObject:[driverdata.nswindow contentView]
-                                               waitUntilDone:NO];
-        }
-    }
     return 0;
 }}
 
