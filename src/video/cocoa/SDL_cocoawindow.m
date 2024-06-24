@@ -430,6 +430,7 @@ static SDL_bool AdjustCoordinatesForGrab(SDL_Window * window, int x, int y, CGPo
 
     if ([window delegate] != nil) {
         [center addObserver:self selector:@selector(windowDidExpose:) name:NSWindowDidExposeNotification object:window];
+        [center addObserver:self selector:@selector(windowDidMove:) name:NSWindowDidMoveNotification object:window];
         [center addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:window];
         [center addObserver:self selector:@selector(windowDidMiniaturize:) name:NSWindowDidMiniaturizeNotification object:window];
         [center addObserver:self selector:@selector(windowDidDeminiaturize:) name:NSWindowDidDeminiaturizeNotification object:window];
@@ -595,6 +596,51 @@ static SDL_bool AdjustCoordinatesForGrab(SDL_Window * window, int x, int y, CGPo
 {
     SDL_SendWindowEvent(_data.window, SDL_WINDOWEVENT_CLOSE, 0, 0);
     return NO;
+}
+
+- (void)windowWillMove:(NSNotification *)aNotification
+{
+    if ([_data.nswindow isKindOfClass:[SDLWindow class]]) {
+        pendingWindowWarpX = pendingWindowWarpY = INT_MAX;
+        isMoving = YES;
+    }
+}
+
+- (void)windowDidMove:(NSNotification *)aNotification
+{
+    int x, y;
+    SDL_Window *window = _data.window;
+    NSWindow *nswindow = _data.nswindow;
+    BOOL fullscreen = window->flags & FULLSCREEN_MASK;
+    NSRect rect = [nswindow contentRectForFrameRect:[nswindow frame]];
+    ConvertNSRect([nswindow screen], fullscreen, &rect);
+
+    if (inFullscreenTransition) {
+        /* We'll take care of this at the end of the transition */
+        return;
+    }
+
+    if (s_moveHack) {
+        SDL_bool blockMove = ((SDL_GetTicks() - s_moveHack) < 500);
+
+        s_moveHack = 0;
+
+        if (blockMove) {
+            /* Cocoa is adjusting the window in response to a mode change */
+            rect.origin.x = window->x;
+            rect.origin.y = window->y;
+            ConvertNSRect([nswindow screen], fullscreen, &rect);
+            [nswindow setFrameOrigin:rect.origin];
+            return;
+        }
+    }
+
+    x = (int)rect.origin.x;
+    y = (int)rect.origin.y;
+
+    ScheduleContextUpdates(_data);
+
+    SDL_SendWindowEvent(window, SDL_WINDOWEVENT_MOVED, x, y);
 }
 
 - (void)windowDidExpose:(NSNotification *)aNotification
