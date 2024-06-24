@@ -1420,13 +1420,6 @@ static int Cocoa_SendMouseButtonClicks(SDL_Mouse * mouse, NSEvent *theEvent, SDL
     return YES;
 }
 
-- (void)resetCursorRects
-{
-    [super resetCursorRects];
-    [self addCursorRect:[self bounds]
-                 cursor:Cocoa_GetDesiredCursor()];
-}
-
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
 {
     if (SDL_GetHint(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH)) {
@@ -2140,17 +2133,10 @@ int Cocoa_GetWindowGammaRamp(_THIS, SDL_Window * window, Uint16 * ramp)
     return 0;
 }
 
-void Cocoa_SetWindowMouseRect(_THIS, SDL_Window * window)
-{
-    Cocoa_UpdateClipCursor(window);
-}
-
 void Cocoa_SetWindowMouseGrab(_THIS, SDL_Window * window, SDL_bool grabbed)
 { @autoreleasepool
 {
     SDL_WindowData *data = (__bridge SDL_WindowData *) window->driverdata;
-
-    Cocoa_UpdateClipCursor(window);
 
     if (data && (window->flags & SDL_WINDOW_FULLSCREEN)) {
         if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_INPUT_FOCUS)
