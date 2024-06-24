@@ -592,6 +592,56 @@ static SDL_bool AdjustCoordinatesForGrab(SDL_Window * window, int x, int y, CGPo
     }
 }
 
+- (BOOL)isMoving
+{
+    return isMoving;
+}
+
+- (BOOL)isMovingOrFocusClickPending
+{
+    return isMoving || (focusClickPending != 0);
+}
+
+-(void) setFocusClickPending:(NSInteger) button
+{
+    focusClickPending |= (1 << button);
+}
+
+-(void) clearFocusClickPending:(NSInteger) button
+{
+    if (focusClickPending & (1 << button)) {
+        focusClickPending &= ~(1 << button);
+        if (focusClickPending == 0) {
+            [self onMovingOrFocusClickPendingStateCleared];
+        }
+    }
+}
+
+-(void) setPendingMoveX:(int)x Y:(int)y
+{
+    pendingWindowWarpX = x;
+    pendingWindowWarpY = y;
+}
+
+- (void)windowDidFinishMoving
+{
+    if (isMoving) {
+        isMoving = NO;
+        [self onMovingOrFocusClickPendingStateCleared];
+    }
+}
+
+- (void)onMovingOrFocusClickPendingStateCleared
+{
+    if (![self isMovingOrFocusClickPending]) {
+        SDL_Mouse *mouse = SDL_GetMouse();
+        if (pendingWindowWarpX != INT_MAX && pendingWindowWarpY != INT_MAX) {
+            mouse->WarpMouseGlobal(pendingWindowWarpX, pendingWindowWarpY);
+            pendingWindowWarpX = pendingWindowWarpY = INT_MAX;
+        }
+    }
+}
+
 - (BOOL)windowShouldClose:(id)sender
 {
     SDL_SendWindowEvent(_data.window, SDL_WINDOWEVENT_CLOSE, 0, 0);
