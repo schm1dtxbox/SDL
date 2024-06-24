@@ -407,71 +407,6 @@ static SDL_bool AdjustCoordinatesForGrab(SDL_Window * window, int x, int y, CGPo
     return SDL_FALSE;
 }
 
-static void Cocoa_UpdateClipCursor(SDL_Window * window)
-{
-    SDL_WindowData *data = (__bridge SDL_WindowData *) window->driverdata;
-
-    if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_13_2) {
-        NSWindow *nswindow = data.nswindow;
-        SDL_Rect mouse_rect;
-
-        SDL_zero(mouse_rect);
-
-        if (ShouldAdjustCoordinatesForGrab(window)) {
-            SDL_Rect window_rect;
-
-            window_rect.x = 0;
-            window_rect.y = 0;
-            window_rect.w = window->w;
-            window_rect.h = window->h;
-
-            if (window->mouse_rect.w > 0 && window->mouse_rect.h > 0) {
-                SDL_IntersectRect(&window->mouse_rect, &window_rect, &mouse_rect);
-            }
-
-            if ((window->flags & SDL_WINDOW_MOUSE_GRABBED) != 0 &&
-                SDL_RectEmpty(&mouse_rect)) {
-                SDL_memcpy(&mouse_rect, &window_rect, sizeof(mouse_rect));
-            }
-        }
-
-        if (SDL_RectEmpty(&mouse_rect)) {
-            nswindow.mouseConfinementRect = NSZeroRect;
-        } else {
-            NSRect rect;
-            rect.origin.x = mouse_rect.x;
-            rect.origin.y = [nswindow contentLayoutRect].size.height - mouse_rect.y - mouse_rect.h;
-            rect.size.width = mouse_rect.w;
-            rect.size.height = mouse_rect.h;
-            nswindow.mouseConfinementRect = rect;
-        }
-    } else {
-        /* Move the cursor to the nearest point in the window */
-        if (ShouldAdjustCoordinatesForGrab(window)) {
-            int x, y;
-            CGPoint cgpoint;
-
-            SDL_GetGlobalMouseState(&x, &y);
-            if (AdjustCoordinatesForGrab(window, x, y, &cgpoint)) {
-                Cocoa_HandleMouseWarp(cgpoint.x, cgpoint.y);
-                CGDisplayMoveCursorToPoint(kCGDirectMainDisplay, cgpoint);
-            }
-        }
-    }
-}
-
-static NSCursor *Cocoa_GetDesiredCursor(void)
-{
-    SDL_Mouse *mouse = SDL_GetMouse();
-
-    if (mouse->cursor_shown && mouse->cur_cursor && !mouse->relative_mode) {
-        return (__bridge NSCursor *)mouse->cur_cursor->driverdata;
-    }
-
-    return [NSCursor invisibleCursor];
-}
-
-
 @implementation Cocoa_WindowListener
 
 - (void)listen:(SDL_WindowData *)data
@@ -495,7 +430,6 @@ static NSCursor *Cocoa_GetDesiredCursor(void)
 
     if ([window delegate] != nil) {
         [center addObserver:self selector:@selector(windowDidExpose:) name:NSWindowDidExposeNotification object:window];
-        [center addObserver:self selector:@selector(windowDidMove:) name:NSWindowDidMoveNotification object:window];
         [center addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:window];
         [center addObserver:self selector:@selector(windowDidMiniaturize:) name:NSWindowDidMiniaturizeNotification object:window];
         [center addObserver:self selector:@selector(windowDidDeminiaturize:) name:NSWindowDidDeminiaturizeNotification object:window];
@@ -657,76 +591,6 @@ static NSCursor *Cocoa_GetDesiredCursor(void)
     }
 }
 
-- (BOOL)isMoving
-{
-    return isMoving;
-}
-
-- (BOOL)isMovingOrFocusClickPending
-{
-    return isMoving || (focusClickPending != 0);
-}
-
--(void) setFocusClickPending:(NSInteger) button
-{
-    focusClickPending |= (1 << button);
-}
-
--(void) clearFocusClickPending:(NSInteger) button
-{
-    if (focusClickPending & (1 << button)) {
-        focusClickPending &= ~(1 << button);
-        if (focusClickPending == 0) {
-            [self onMovingOrFocusClickPendingStateCleared];
-        }
-    }
-}
-
--(void) setPendingMoveX:(int)x Y:(int)y
-{
-    pendingWindowWarpX = x;
-    pendingWindowWarpY = y;
-}
-
-- (void)windowDidFinishMoving
-{
-    if (isMoving) {
-        isMoving = NO;
-        [self onMovingOrFocusClickPendingStateCleared];
-    }
-}
-
-- (void)onMovingOrFocusClickPendingStateCleared
-{
-    if (![self isMovingOrFocusClickPending]) {
-        SDL_Mouse *mouse = SDL_GetMouse();
-        if (pendingWindowWarpX != INT_MAX && pendingWindowWarpY != INT_MAX) {
-            mouse->WarpMouseGlobal(pendingWindowWarpX, pendingWindowWarpY);
-            pendingWindowWarpX = pendingWindowWarpY = INT_MAX;
-        }
-        if (mouse->relative_mode && !mouse->relative_mode_warp && mouse->focus == _data.window) {
-            /* Move the cursor to the nearest point in the window */
-            {
-                int x, y;
-                CGPoint cgpoint;
-
-                SDL_GetMouseState(&x, &y);
-                cgpoint.x = _data.window->x + x;
-                cgpoint.y = _data.window->y + y;
-
-                Cocoa_HandleMouseWarp(cgpoint.x, cgpoint.y);
-
-                DLog("Returning cursor to (%g, %g)", cgpoint.x, cgpoint.y);
-                CGDisplayMoveCursorToPoint(kCGDirectMainDisplay, cgpoint);
-            }
-
-            mouse->SetRelativeMouseMode(SDL_TRUE);
-        } else {
-            Cocoa_UpdateClipCursor(_data.window);
-        }
-    }
-}
-
 - (BOOL)windowShouldClose:(id)sender
 {
     SDL_SendWindowEvent(_data.window, SDL_WINDOWEVENT_CLOSE, 0, 0);
@@ -736,51 +600,6 @@ static NSCursor *Cocoa_GetDesiredCursor(void)
 - (void)windowDidExpose:(NSNotification *)aNotification
 {
     SDL_SendWindowEvent(_data.window, SDL_WINDOWEVENT_EXPOSED, 0, 0);
-}
-
-- (void)windowWillMove:(NSNotification *)aNotification
-{
-    if ([_data.nswindow isKindOfClass:[SDLWindow class]]) {
-        pendingWindowWarpX = pendingWindowWarpY = INT_MAX;
-        isMoving = YES;
-    }
-}
-
-- (void)windowDidMove:(NSNotification *)aNotification
-{
-    int x, y;
-    SDL_Window *window = _data.window;
-    NSWindow *nswindow = _data.nswindow;
-    BOOL fullscreen = window->flags & FULLSCREEN_MASK;
-    NSRect rect = [nswindow contentRectForFrameRect:[nswindow frame]];
-    ConvertNSRect([nswindow screen], fullscreen, &rect);
-
-    if (inFullscreenTransition) {
-        /* We'll take care of this at the end of the transition */
-        return;
-    }
-
-    if (s_moveHack) {
-        SDL_bool blockMove = ((SDL_GetTicks() - s_moveHack) < 500);
-
-        s_moveHack = 0;
-
-        if (blockMove) {
-            /* Cocoa is adjusting the window in response to a mode change */
-            rect.origin.x = window->x;
-            rect.origin.y = window->y;
-            ConvertNSRect([nswindow screen], fullscreen, &rect);
-            [nswindow setFrameOrigin:rect.origin];
-            return;
-        }
-    }
-
-    x = (int)rect.origin.x;
-    y = (int)rect.origin.y;
-
-    ScheduleContextUpdates(_data);
-
-    SDL_SendWindowEvent(window, SDL_WINDOWEVENT_MOVED, x, y);
 }
 
 - (void)windowDidResize:(NSNotification *)aNotification
@@ -1344,15 +1163,6 @@ static int Cocoa_SendMouseButtonClicks(SDL_Mouse * mouse, NSEvent *theEvent, SDL
     window = _data.window;
     contentView = _data.sdlContentView;
     point = [theEvent locationInWindow];
-
-    if ([contentView mouse:[contentView convertPoint:point fromView:nil] inRect:[contentView bounds]] &&
-        [NSCursor currentCursor] != Cocoa_GetDesiredCursor()) {
-        // The wrong cursor is on screen, fix it. This fixes an macOS bug that is only known to
-        // occur in fullscreen windows on the built-in displays of newer MacBooks with camera
-        // notches. When the mouse is moved near the top of such a window (within about 44 units)
-        // and then moved back down, the cursor rects aren't respected.
-        [_data.nswindow invalidateCursorRectsForView:contentView];
-    }
 
     if ([self processHitTest:theEvent]) {
         SDL_SendWindowEvent(window, SDL_WINDOWEVENT_HIT_TEST, 0, 0);
