@@ -218,19 +218,7 @@ int SDL_MousePreInit(void)
 
 void SDL_MousePostInit(void)
 {
-    SDL_Mouse *mouse = SDL_GetMouse();
-
-    /* Create a dummy mouse cursor for video backends that don't support true cursors,
-     * so that mouse grab and focus functionality will work.
-     */
-    if (!mouse->def_cursor) {
-        SDL_Surface *surface = SDL_CreateRGBSurface(0, 1, 1, 32, 0xFF, 0xFF, 0xFF, 0xFF);
-        if (surface) {
-            SDL_memset(surface->pixels, 0, (size_t)surface->h * surface->pitch);
-            SDL_SetDefaultCursor(SDL_CreateColorCursor(surface, 0, 0));
-            SDL_FreeSurface(surface);
-        }
-    }
+    return;
 }
 
 void SDL_SetDefaultCursor(SDL_Cursor *cursor)
@@ -317,9 +305,6 @@ void SDL_SetMouseFocus(SDL_Window *window)
     if (mouse->focus) {
         SDL_SendWindowEvent(mouse->focus, SDL_WINDOWEVENT_ENTER, 0, 0);
     }
-
-    /* Update cursor visibility */
-    SDL_SetCursor(NULL);
 }
 
 /* Check to see if we need to synthesize focus events */
@@ -770,11 +755,6 @@ int SDL_SetRelativeMouseMode(SDL_bool enabled)
     mouse->scale_accum_x = 0.0f;
     mouse->scale_accum_y = 0.0f;
 
-    if (enabled) {
-        /* Update cursor visibility before we potentially warp the mouse */
-        SDL_SetCursor(NULL);
-    }
-
     if (enabled && focusWindow) {
         SDL_SetMouseFocus(focusWindow);
 
@@ -792,11 +772,6 @@ int SDL_SetRelativeMouseMode(SDL_bool enabled)
         }
 
         SDL_UpdateMouseCapture(SDL_FALSE);
-    }
-
-    if (!enabled) {
-        /* Update cursor visibility after we restore the mouse position */
-        SDL_SetCursor(NULL);
     }
 
     /* Flush pending mouse motion - ideally we would pump events, but that's not always safe */
@@ -893,113 +868,17 @@ int SDL_CaptureMouse(SDL_bool enabled)
 SDL_Cursor *SDL_CreateCursor(const Uint8 *data, const Uint8 *mask,
                  int w, int h, int hot_x, int hot_y)
 {
-    SDL_Surface *surface;
-    SDL_Cursor *cursor;
-    int x, y;
-    Uint32 *pixel;
-    Uint8 datab = 0, maskb = 0;
-    const Uint32 black = 0xFF000000;
-    const Uint32 white = 0xFFFFFFFF;
-    const Uint32 transparent = 0x00000000;
-
-    /* Make sure the width is a multiple of 8 */
-    w = ((w + 7) & ~7);
-
-    /* Create the surface from a bitmap */
-    surface = SDL_CreateRGBSurface(0, w, h, 32,
-                                   0x00FF0000,
-                                   0x0000FF00,
-                                   0x000000FF,
-                                   0xFF000000);
-    if (!surface) {
-        return NULL;
-    }
-    for (y = 0; y < h; ++y) {
-        pixel = (Uint32 *)((Uint8 *)surface->pixels + y * surface->pitch);
-        for (x = 0; x < w; ++x) {
-            if ((x % 8) == 0) {
-                datab = *data++;
-                maskb = *mask++;
-            }
-            if (maskb & 0x80) {
-                *pixel++ = (datab & 0x80) ? black : white;
-            } else {
-                *pixel++ = (datab & 0x80) ? black : transparent;
-            }
-            datab <<= 1;
-            maskb <<= 1;
-        }
-    }
-
-    cursor = SDL_CreateColorCursor(surface, hot_x, hot_y);
-
-    SDL_FreeSurface(surface);
-
-    return cursor;
+    return NULL;
 }
 
 SDL_Cursor *SDL_CreateColorCursor(SDL_Surface *surface, int hot_x, int hot_y)
 {
-    SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_Surface *temp = NULL;
-    SDL_Cursor *cursor;
-
-    if (!surface) {
-        SDL_InvalidParamError("surface");
-        return NULL;
-    }
-
-    /* Sanity check the hot spot */
-    if ((hot_x < 0) || (hot_y < 0) ||
-        (hot_x >= surface->w) || (hot_y >= surface->h)) {
-        SDL_SetError("Cursor hot spot doesn't lie within cursor");
-        return NULL;
-    }
-
-    if (surface->format->format != SDL_PIXELFORMAT_ARGB8888) {
-        temp = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_ARGB8888, 0);
-        if (!temp) {
-            return NULL;
-        }
-        surface = temp;
-    }
-
-    if (mouse->CreateCursor) {
-        cursor = mouse->CreateCursor(surface, hot_x, hot_y);
-    } else {
-        cursor = SDL_calloc(1, sizeof(*cursor));
-        if (!cursor) {
-            SDL_OutOfMemory();
-        }
-    }
-
-    if (cursor) {
-        cursor->next = mouse->cursors;
-        mouse->cursors = cursor;
-    }
-
-    SDL_FreeSurface(temp);
-
-    return cursor;
+    return NULL;
 }
 
 SDL_Cursor *SDL_CreateSystemCursor(SDL_SystemCursor id)
 {
-    SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_Cursor *cursor;
-
-    if (!mouse->CreateSystemCursor) {
-        SDL_SetError("CreateSystemCursor is not currently supported");
-        return NULL;
-    }
-
-    cursor = mouse->CreateSystemCursor(id);
-    if (cursor) {
-        cursor->next = mouse->cursors;
-        mouse->cursors = cursor;
-    }
-
-    return cursor;
+    return NULL;
 }
 
 /* SDL_SetCursor(NULL) can be used to force the cursor redraw,
@@ -1013,22 +892,12 @@ void SDL_SetCursor(SDL_Cursor *cursor)
 
 SDL_Cursor *SDL_GetCursor(void)
 {
-    SDL_Mouse *mouse = SDL_GetMouse();
-
-    if (!mouse) {
-        return NULL;
-    }
-    return mouse->cur_cursor;
+    return NULL;
 }
 
 SDL_Cursor *SDL_GetDefaultCursor(void)
 {
-    SDL_Mouse *mouse = SDL_GetMouse();
-
-    if (!mouse) {
-        return NULL;
-    }
-    return mouse->def_cursor;
+    return NULL;
 }
 
 void SDL_FreeCursor(SDL_Cursor *cursor)
@@ -1068,25 +937,7 @@ void SDL_FreeCursor(SDL_Cursor *cursor)
 
 int SDL_ShowCursor(int toggle)
 {
-    SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_bool shown;
-
-    if (!mouse) {
-        return 0;
-    }
-
-    shown = mouse->cursor_shown;
-    if (toggle >= 0) {
-        if (toggle) {
-            mouse->cursor_shown = SDL_TRUE;
-        } else {
-            mouse->cursor_shown = SDL_FALSE;
-        }
-        if (mouse->cursor_shown != shown) {
-            SDL_SetCursor(NULL);
-        }
-    }
-    return shown;
+    return 0;
 }
 
 /* vi: set ts=4 sw=4 expandtab: */
