@@ -2205,7 +2205,6 @@ void Cocoa_SetWindowMouseGrab(_THIS, SDL_Window * window, SDL_bool grabbed)
     } else {
         CGDisplayShowCursor(kCGDirectMainDisplay);
     }
-    return 0;
 }}
 
 void Cocoa_DestroyWindow(_THIS, SDL_Window * window)
