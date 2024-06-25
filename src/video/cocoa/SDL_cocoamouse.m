@@ -349,6 +349,7 @@ void Cocoa_HandleMouseEvent(_THIS, NSEvent *event)
         case NSEventTypeLeftMouseDragged:
         case NSEventTypeRightMouseDragged:
         case NSEventTypeOtherMouseDragged:
+            [NSCursor setHiddenUntilMouseMoves:true];
             break;
 
         case NSEventTypeLeftMouseDown:
