@@ -115,7 +115,6 @@ static SDL_VideoDevice *Cocoa_CreateDevice(void)
     device->GetWindowGammaRamp = Cocoa_GetWindowGammaRamp;
     device->GetWindowICCProfile = Cocoa_GetWindowICCProfile;
     device->GetWindowDisplayIndex = Cocoa_GetWindowDisplayIndex;
-    device->SetWindowMouseGrab = Cocoa_SetWindowMouseGrab;
     device->DestroyWindow = Cocoa_DestroyWindow;
     device->GetWindowWMInfo = Cocoa_GetWindowWMInfo;
     device->SetWindowHitTest = Cocoa_SetWindowHitTest;
