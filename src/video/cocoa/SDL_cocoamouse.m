@@ -290,6 +290,7 @@ int Cocoa_InitMouse(_THIS)
     mouse->GetGlobalMouseState = Cocoa_GetGlobalMouseState;
 
     SDL_SetDefaultCursor(Cocoa_CreateDefaultCursor());
+    [NSCursor setHiddenUntilMouseMoves:true];
 
     location =  [NSEvent mouseLocation];
     driverdata->lastMoveX = location.x;
