@@ -162,8 +162,6 @@ extern int Cocoa_SetWindowGammaRamp(_THIS, SDL_Window * window, const Uint16 * r
 extern void* Cocoa_GetWindowICCProfile(_THIS, SDL_Window * window, size_t * size);
 extern int Cocoa_GetWindowDisplayIndex(_THIS, SDL_Window * window);
 extern int Cocoa_GetWindowGammaRamp(_THIS, SDL_Window * window, Uint16 * ramp);
-extern void Cocoa_SetWindowMouseRect(_THIS, SDL_Window * window);
-extern void Cocoa_SetWindowMouseGrab(_THIS, SDL_Window * window, SDL_bool grabbed);
 extern void Cocoa_DestroyWindow(_THIS, SDL_Window * window);
 extern SDL_bool Cocoa_GetWindowWMInfo(_THIS, SDL_Window * window, struct SDL_SysWMinfo *info);
 extern int Cocoa_SetWindowHitTest(SDL_Window *window, SDL_bool enabled);
