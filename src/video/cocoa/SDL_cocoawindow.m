@@ -2197,16 +2197,6 @@ int Cocoa_GetWindowGammaRamp(_THIS, SDL_Window * window, Uint16 * ramp)
     return 0;
 }
 
-void Cocoa_SetWindowMouseGrab(_THIS, SDL_Window * window, SDL_bool grabbed)
-{ @autoreleasepool
-{
-    if (grabbed) {
-        CGDisplayHideCursor(kCGDirectMainDisplay);
-    } else {
-        CGDisplayShowCursor(kCGDirectMainDisplay);
-    }
-}}
-
 void Cocoa_DestroyWindow(_THIS, SDL_Window * window)
 { @autoreleasepool
 {
