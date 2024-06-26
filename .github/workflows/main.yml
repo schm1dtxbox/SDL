@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Configure
       run: |
-        cmake -B build -C CMakeCache.txt \
+        cmake -B build \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_OSX_ARCHITECTURES="arm64"
         
@@ -29,5 +29,5 @@ jobs:
     - name: Upload2
       uses: actions/upload-artifact@v4.3.3
       with:
-        path: build/libSDL2-2.0.0.dylib
+        path: build/
                 
