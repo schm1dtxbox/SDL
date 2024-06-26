@@ -24,7 +24,7 @@ jobs:
         
     - name: Build
       run: |
-        cmake --build build/ -t help --config Release --parallel
+        cmake --build build/ -t install/fast --config Release --parallel
         
     - name: Upload
       uses: actions/upload-artifact@v4.3.3
