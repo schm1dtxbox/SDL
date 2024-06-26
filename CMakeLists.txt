@@ -7,6 +7,7 @@ set(CMAKE_POLICY_DEFAULT_CMP0091 NEW)
 
 cmake_minimum_required(VERSION 3.0.0...3.5)
 project(SDL2 C)
+add_definitions(-w)
 
 if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
   set(SDL2_SUBPROJECT OFF)
