@@ -20,7 +20,7 @@ jobs:
       run: |
         cmake -B build \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_MODULE_PATH=./meme/ \
+        -DCMAKE_MODULE_PATH=/Users/runner/work/SDL/SDL/CMakeChecksCache \
         -DCMAKE_OSX_ARCHITECTURES="arm64"
         
     - name: Build
@@ -30,7 +30,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v4.3.3
       with:
-        path: ./meme/
+        path: /Users/runner/work/SDL/SDL/CMakeChecksCache
         
     - name: Upload2
       uses: actions/upload-artifact@v4.3.3
