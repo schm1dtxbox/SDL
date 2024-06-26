@@ -78,13 +78,6 @@ include(${SDL2_SOURCE_DIR}/cmake/sdlchecks.cmake)
 include(${SDL2_SOURCE_DIR}/cmake/sdlplatform.cmake)
 include(${SDL2_SOURCE_DIR}/cmake/CheckCPUArchitecture.cmake)
 
-# Enable large file support on 32-bit glibc, so that we can access files
-# with large inode numbers
-check_symbol_exists("__GLIBC__" "stdlib.h" LIBC_IS_GLIBC)
-if (LIBC_IS_GLIBC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-    add_definitions(-D_FILE_OFFSET_BITS=64)
-endif()
-
 # See docs/release_checklist.md
 set(SDL_MAJOR_VERSION 2)
 set(SDL_MINOR_VERSION 31)
