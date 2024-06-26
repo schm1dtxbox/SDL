@@ -184,9 +184,6 @@ int Cocoa_VideoInit(_THIS)
     SDL_VideoData *data = (__bridge SDL_VideoData *) _this->driverdata;
 
     Cocoa_InitModes(_this);
-    if (Cocoa_InitMouse(_this) < 0) {
-        return -1;
-    }
 
     data.allow_spaces = SDL_GetHintBoolean(SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES, SDL_TRUE);
     data.trackpad_is_touch_only = SDL_GetHintBoolean(SDL_HINT_TRACKPAD_IS_TOUCH_ONLY, SDL_FALSE);
