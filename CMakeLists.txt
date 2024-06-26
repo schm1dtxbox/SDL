@@ -355,23 +355,8 @@ if(VITA OR PSP OR PS2 OR N3DS)
 endif()
 
 # When defined, respect CMake's BUILD_SHARED_LIBS setting:
-set(SDL_STATIC_ENABLED_BY_DEFAULT ON)
-if (NOT DEFINED SDL_SHARED_ENABLED_BY_DEFAULT)
-  # ...unless decided already (as for EMSCRIPTEN)
-
-  set(SDL_SHARED_ENABLED_BY_DEFAULT OFF)
-
-  if (NOT DEFINED BUILD_SHARED_LIBS)
-    # No preference? Build both, just like the AC/AM configure
-    set(SDL_SHARED_ENABLED_BY_DEFAULT ON)
-
-  elseif (BUILD_SHARED_LIBS)
-    # In this case, we assume the user wants a shared lib and don't build
-    # the static one
-    set(SDL_SHARED_ENABLED_BY_DEFAULT ON)
-    set(SDL_STATIC_ENABLED_BY_DEFAULT OFF)
-  endif()
-endif()
+set(SDL_STATIC_ENABLED_BY_DEFAULT OFF)
+set(SDL_SHARED_ENABLED_BY_DEFAULT ON)
 
 if (NOT DEFINED SDL_TEST_ENABLED_BY_DEFAULT)
   set(SDL_TEST_ENABLED_BY_DEFAULT OFF)
@@ -475,10 +460,6 @@ dep_option(SDL_KMSDRM_SHARED       "Dynamically load KMS DRM support" ON "SDL_KM
 set_option(SDL_OFFSCREEN           "Use offscreen video driver" ON)
 option_string(SDL_BACKGROUNDING_SIGNAL "number to use for magic backgrounding signal or 'OFF'" OFF)
 option_string(SDL_FOREGROUNDING_SIGNAL "number to use for magic foregrounding signal or 'OFF'" OFF)
-set_option(SDL_HIDAPI              "Enable the HIDAPI subsystem" OFF)
-dep_option(SDL_HIDAPI_LIBUSB       "Use libusb for low level joystick drivers" OFF SDL_HIDAPI OFF)
-dep_option(SDL_HIDAPI_JOYSTICK     "Use HIDAPI for low level joystick drivers" OFF SDL_HIDAPI OFF)
-dep_option(SDL_VIRTUAL_JOYSTICK    "Enable the virtual-joystick driver" OFF SDL_HIDAPI OFF)
 set_option(SDL_LIBUDEV             "Enable libudev support" ON)
 set_option(SDL_ASAN                "Use AddressSanitizer to detect memory errors" OFF)
 option_string(SDL_VENDOR_INFO      "Vendor name and/or version to add to SDL_REVISION" "")
@@ -495,14 +476,6 @@ dep_option(SDL_TESTS           "Build the test directory" OFF SDL_TEST OFF)
 set_option(SDL_INSTALL_TESTS   "Install test-cases" OFF)
 
 set(HAVE_STATIC_PIC "${SDL_STATIC_PIC}")
-
-if(SDL_HIDAPI)
-  if(HIDAPI_ONLY_LIBUSB)
-    set(SDL_HIDAPI_LIBUSB ON CACHE BOOL "" FORCE)
-  elseif(HIDAPI_SKIP_LIBUSB)
-    set(SDL_HIDAPI_LIBUSB OFF CACHE BOOL "" FORCE)
-  endif()
-endif()
 
 if(VITA)
   set_option(VIDEO_VITA_PIB  "Build with PSVita piglet gles2 support" OFF)
@@ -1205,15 +1178,6 @@ if(UNIX OR APPLE OR HAIKU OR RISCOS)
   CheckO_CLOEXEC()
 endif()
 
-if(SDL_JOYSTICK)
-  if(SDL_VIRTUAL_JOYSTICK)
-    set(HAVE_VIRTUAL_JOYSTICK TRUE)
-    set(SDL_JOYSTICK_VIRTUAL 1)
-    file(GLOB JOYSTICK_VIRTUAL_SOURCES ${SDL2_SOURCE_DIR}/src/joystick/virtual/*.c)
-    list(APPEND SOURCE_FILES ${JOYSTICK_VIRTUAL_SOURCES})
-  endif()
-endif()
-
 if(SDL_VIDEO)
   if(SDL_DUMMYVIDEO)
     set(SDL_VIDEO_DRIVER_DUMMY 1)
@@ -1286,9 +1250,6 @@ if(ANDROID)
     file(GLOB ANDROID_HAPTIC_SOURCES ${SDL2_SOURCE_DIR}/src/haptic/android/*.c)
     list(APPEND SOURCE_FILES ${ANDROID_HAPTIC_SOURCES})
     set(HAVE_SDL_HAPTIC TRUE)
-  endif()
-  if(SDL_HIDAPI)
-    CheckHIDAPI()
   endif()
   if(SDL_JOYSTICK)
     set(SDL_JOYSTICK_ANDROID 1)
@@ -1649,10 +1610,6 @@ elseif(UNIX AND NOT APPLE AND NOT RISCOS AND NOT HAIKU)
     # src/core/unix/*.c is included in a generic if(UNIX) section, elsewhere.
   endif()
 
-  if(SDL_HIDAPI)
-    CheckHIDAPI()
-  endif()
-
   if(SDL_JOYSTICK)
     if(FREEBSD OR NETBSD OR OPENBSD OR BSDI)
       CheckUSBHID()
@@ -2002,10 +1959,6 @@ elseif(WINDOWS)
     endif()
   endif()
 
-  if(SDL_HIDAPI)
-    CheckHIDAPI()
-  endif()
-
   if(SDL_JOYSTICK)
     file(GLOB JOYSTICK_SOURCES ${SDL2_SOURCE_DIR}/src/joystick/windows/*.c)
     list(APPEND SOURCE_FILES ${JOYSTICK_SOURCES})
@@ -2098,10 +2051,6 @@ elseif(APPLE)
     set(SDL_FRAMEWORK_COREAUDIO 1)
     set(SDL_FRAMEWORK_AUDIOTOOLBOX 1)
     set(SDL_FRAMEWORK_AVFOUNDATION 1)
-  endif()
-
-  if(SDL_HIDAPI)
-    CheckHIDAPI()
   endif()
 
   if(SDL_JOYSTICK)
@@ -2768,10 +2717,6 @@ elseif(OS2)
     file(GLOB OS2_JOYSTICK_SOURCES ${SDL2_SOURCE_DIR}/src/joystick/os2/*.c)
     list(APPEND SOURCE_FILES ${OS2_JOYSTICK_SOURCES})
     set(HAVE_SDL_JOYSTICK TRUE)
-  endif()
-
-  if(SDL_HIDAPI)
-    CheckHIDAPI()
   endif()
 
 elseif(N3DS)
