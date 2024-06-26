@@ -44,10 +44,6 @@ typedef struct {
     SDL_bool justEnabledRelative;
 } SDL_MouseData;
 
-@interface NSCursor (InvisibleCursor)
-+ (NSCursor *)invisibleCursor;
-@end
-
 #endif /* SDL_cocoamouse_h_ */
 
 /* vi: set ts=4 sw=4 expandtab: */
