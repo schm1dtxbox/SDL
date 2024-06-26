@@ -18,9 +18,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: Configure
       run: |
-        cmake -B build \
+        cmake -B build -C cmake_checks_cache.txt \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_MODULE_PATH=/Users/runner/work/SDL/SDL/CMakeChecksCache \
         -DCMAKE_OSX_ARCHITECTURES="arm64"
         
     - name: Build
@@ -30,5 +29,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v4.3.3
       with:
-        path: build/
+        path: build/libSDL2-2.0.0.dylib
                 
