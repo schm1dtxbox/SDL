@@ -11,7 +11,6 @@
 		007317A60858DECD00B2BC32 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0073179F0858DECD00B2BC32 /* IOKit.framework */; };
 		00CFA89D106B4BA100758660 /* ForceFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CFA89C106B4BA100758660 /* ForceFeedback.framework */; };
 		00D0D08410675DD9004B05EF /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00D0D08310675DD9004B05EF /* CoreFoundation.framework */; };
-		00D0D0D810675E46004B05EF /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 007317C10858E15000B2BC32 /* Carbon.framework */; };
 		552673EB2546054600085751 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A75FDABD23E28B6200529352 /* GameController.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		552673EC2546055000085751 /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F37DC5F225350EBC0002E6F7 /* CoreHaptics.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		557D0CFA254586CA003913E3 /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F37DC5F225350EBC0002E6F7 /* CoreHaptics.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -204,7 +203,6 @@
 		A75FCD4623E25AB700529352 /* SDL_shaders_gl.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A90D23E2514000DCD162 /* SDL_shaders_gl.h */; };
 		A75FCD4723E25AB700529352 /* SDL_systhread_c.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A78423E2513E00DCD162 /* SDL_systhread_c.h */; };
 		A75FCD4823E25AB700529352 /* SDL_keycode.h in Headers */ = {isa = PBXBuildFile; fileRef = AA7557DB1595D4D800BBD41B /* SDL_keycode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A75FCD4A23E25AB700529352 /* SDL_cocoakeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68023E2513E00DCD162 /* SDL_cocoakeyboard.h */; };
 		A75FCD4B23E25AB700529352 /* SDL_uikitvulkan.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A63323E2513D00DCD162 /* SDL_uikitvulkan.h */; };
 		A75FCD4F23E25AB700529352 /* SDL_loadso.h in Headers */ = {isa = PBXBuildFile; fileRef = AA7557DC1595D4D800BBD41B /* SDL_loadso.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A75FCD5023E25AB700529352 /* gl2ext.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A72323E2513E00DCD162 /* gl2ext.h */; };
@@ -403,7 +401,6 @@
 		A75FCE2923E25AB700529352 /* e_atan2.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A91D23E2514000DCD162 /* e_atan2.c */; };
 		A75FCE2A23E25AB700529352 /* s_sin.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A91223E2514000DCD162 /* s_sin.c */; };
 		A75FCE2B23E25AB700529352 /* SDL_power.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A7E723E2513F00DCD162 /* SDL_power.c */; };
-		A75FCE2C23E25AB700529352 /* SDL_cocoakeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68C23E2513E00DCD162 /* SDL_cocoakeyboard.m */; };
 		A75FCE2D23E25AB700529352 /* SDL_dynapi.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A5DA23E2513D00DCD162 /* SDL_dynapi.c */; };
 		A75FCE2E23E25AB700529352 /* SDL_shaders_gl.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A91023E2514000DCD162 /* SDL_shaders_gl.c */; };
 		A75FCE2F23E25AB700529352 /* e_log.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A92323E2514000DCD162 /* e_log.c */; };
@@ -576,7 +573,6 @@
 		A75FCEFF23E25AC700529352 /* SDL_shaders_gl.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A90D23E2514000DCD162 /* SDL_shaders_gl.h */; };
 		A75FCF0023E25AC700529352 /* SDL_systhread_c.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A78423E2513E00DCD162 /* SDL_systhread_c.h */; };
 		A75FCF0123E25AC700529352 /* SDL_keycode.h in Headers */ = {isa = PBXBuildFile; fileRef = AA7557DB1595D4D800BBD41B /* SDL_keycode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A75FCF0323E25AC700529352 /* SDL_cocoakeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68023E2513E00DCD162 /* SDL_cocoakeyboard.h */; };
 		A75FCF0423E25AC700529352 /* SDL_uikitvulkan.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A63323E2513D00DCD162 /* SDL_uikitvulkan.h */; };
 		A75FCF0823E25AC700529352 /* SDL_loadso.h in Headers */ = {isa = PBXBuildFile; fileRef = AA7557DC1595D4D800BBD41B /* SDL_loadso.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A75FCF0923E25AC700529352 /* gl2ext.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A72323E2513E00DCD162 /* gl2ext.h */; };
@@ -775,7 +771,6 @@
 		A75FCFE223E25AC700529352 /* e_atan2.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A91D23E2514000DCD162 /* e_atan2.c */; };
 		A75FCFE323E25AC700529352 /* s_sin.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A91223E2514000DCD162 /* s_sin.c */; };
 		A75FCFE423E25AC700529352 /* SDL_power.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A7E723E2513F00DCD162 /* SDL_power.c */; };
-		A75FCFE523E25AC700529352 /* SDL_cocoakeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68C23E2513E00DCD162 /* SDL_cocoakeyboard.m */; };
 		A75FCFE623E25AC700529352 /* SDL_dynapi.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A5DA23E2513D00DCD162 /* SDL_dynapi.c */; };
 		A75FCFE723E25AC700529352 /* SDL_shaders_gl.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A91023E2514000DCD162 /* SDL_shaders_gl.c */; };
 		A75FCFE823E25AC700529352 /* e_log.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A92323E2514000DCD162 /* e_log.c */; };
@@ -968,7 +963,6 @@
 		A769B0CB23E259AE00872273 /* SDL_gesture_c.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A93023E2514000DCD162 /* SDL_gesture_c.h */; };
 		A769B0CC23E259AE00872273 /* SDL_shaders_gl.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A90D23E2514000DCD162 /* SDL_shaders_gl.h */; };
 		A769B0CD23E259AE00872273 /* SDL_systhread_c.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A78423E2513E00DCD162 /* SDL_systhread_c.h */; };
-		A769B0D023E259AE00872273 /* SDL_cocoakeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68023E2513E00DCD162 /* SDL_cocoakeyboard.h */; };
 		A769B0D123E259AE00872273 /* SDL_uikitvulkan.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A63323E2513D00DCD162 /* SDL_uikitvulkan.h */; };
 		A769B0D623E259AE00872273 /* gl2ext.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A72323E2513E00DCD162 /* gl2ext.h */; };
 		A769B0D723E259AE00872273 /* SDL_clipboardevents_c.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A93923E2514000DCD162 /* SDL_clipboardevents_c.h */; };
@@ -1131,7 +1125,6 @@
 		A769B1B223E259AE00872273 /* e_atan2.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A91D23E2514000DCD162 /* e_atan2.c */; };
 		A769B1B323E259AE00872273 /* s_sin.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A91223E2514000DCD162 /* s_sin.c */; };
 		A769B1B423E259AE00872273 /* SDL_power.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A7E723E2513F00DCD162 /* SDL_power.c */; };
-		A769B1B523E259AE00872273 /* SDL_cocoakeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68C23E2513E00DCD162 /* SDL_cocoakeyboard.m */; };
 		A769B1B623E259AE00872273 /* SDL_dynapi.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A5DA23E2513D00DCD162 /* SDL_dynapi.c */; };
 		A769B1B723E259AE00872273 /* SDL_shaders_gl.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A91023E2514000DCD162 /* SDL_shaders_gl.c */; };
 		A769B1B823E259AE00872273 /* e_log.c in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A92323E2514000DCD162 /* e_log.c */; };
@@ -1876,12 +1869,6 @@
 		A7D8AE8B23E2514100DCD162 /* SDL_cocoaopengl.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A67F23E2513E00DCD162 /* SDL_cocoaopengl.m */; };
 		A7D8AE8C23E2514100DCD162 /* SDL_cocoaopengl.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A67F23E2513E00DCD162 /* SDL_cocoaopengl.m */; };
 		A7D8AE8D23E2514100DCD162 /* SDL_cocoaopengl.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A67F23E2513E00DCD162 /* SDL_cocoaopengl.m */; };
-		A7D8AE8E23E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68023E2513E00DCD162 /* SDL_cocoakeyboard.h */; };
-		A7D8AE8F23E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68023E2513E00DCD162 /* SDL_cocoakeyboard.h */; };
-		A7D8AE9023E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68023E2513E00DCD162 /* SDL_cocoakeyboard.h */; };
-		A7D8AE9123E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68023E2513E00DCD162 /* SDL_cocoakeyboard.h */; };
-		A7D8AE9223E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68023E2513E00DCD162 /* SDL_cocoakeyboard.h */; };
-		A7D8AE9323E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68023E2513E00DCD162 /* SDL_cocoakeyboard.h */; };
 		A7D8AE9423E2514100DCD162 /* SDL_cocoamodes.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68123E2513E00DCD162 /* SDL_cocoamodes.m */; };
 		A7D8AE9523E2514100DCD162 /* SDL_cocoamodes.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68123E2513E00DCD162 /* SDL_cocoamodes.m */; };
 		A7D8AE9623E2514100DCD162 /* SDL_cocoamodes.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68123E2513E00DCD162 /* SDL_cocoamodes.m */; };
@@ -1942,12 +1929,6 @@
 		A7D8AED323E2514100DCD162 /* SDL_cocoamessagebox.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68B23E2513E00DCD162 /* SDL_cocoamessagebox.m */; };
 		A7D8AED423E2514100DCD162 /* SDL_cocoamessagebox.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68B23E2513E00DCD162 /* SDL_cocoamessagebox.m */; };
 		A7D8AED523E2514100DCD162 /* SDL_cocoamessagebox.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68B23E2513E00DCD162 /* SDL_cocoamessagebox.m */; };
-		A7D8AED623E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68C23E2513E00DCD162 /* SDL_cocoakeyboard.m */; };
-		A7D8AED723E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68C23E2513E00DCD162 /* SDL_cocoakeyboard.m */; };
-		A7D8AED823E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68C23E2513E00DCD162 /* SDL_cocoakeyboard.m */; };
-		A7D8AED923E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68C23E2513E00DCD162 /* SDL_cocoakeyboard.m */; };
-		A7D8AEDA23E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68C23E2513E00DCD162 /* SDL_cocoakeyboard.m */; };
-		A7D8AEDB23E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8A68C23E2513E00DCD162 /* SDL_cocoakeyboard.m */; };
 		A7D8AEDC23E2514100DCD162 /* SDL_cocoaopengl.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68D23E2513E00DCD162 /* SDL_cocoaopengl.h */; };
 		A7D8AEDD23E2514100DCD162 /* SDL_cocoaopengl.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68D23E2513E00DCD162 /* SDL_cocoaopengl.h */; };
 		A7D8AEDE23E2514100DCD162 /* SDL_cocoaopengl.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8A68D23E2513E00DCD162 /* SDL_cocoaopengl.h */; };
@@ -3326,7 +3307,6 @@
 		DB313FFC17554B71006C0E22 /* SDL_bits.h in Headers */ = {isa = PBXBuildFile; fileRef = AADA5B8616CCAB3000107CF7 /* SDL_bits.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB31406E17554B71006C0E22 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0073179D0858DECD00B2BC32 /* Cocoa.framework */; };
 		DB31407017554B71006C0E22 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0073179F0858DECD00B2BC32 /* IOKit.framework */; };
-		DB31407217554B71006C0E22 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 007317C10858E15000B2BC32 /* Carbon.framework */; };
 		DB31408D17554D3C006C0E22 /* ForceFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CFA89C106B4BA100758660 /* ForceFeedback.framework */; };
 		F316AB852B5A02C3002EF551 /* yuv_rgb_common.h in Headers */ = {isa = PBXBuildFile; fileRef = F316AB7C2B5A02C2002EF551 /* yuv_rgb_common.h */; };
 		F316AB862B5A02C3002EF551 /* yuv_rgb_common.h in Headers */ = {isa = PBXBuildFile; fileRef = F316AB7C2B5A02C2002EF551 /* yuv_rgb_common.h */; };
@@ -3768,7 +3748,6 @@
 /* Begin PBXFileReference section */
 		0073179D0858DECD00B2BC32 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0073179F0858DECD00B2BC32 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		007317C10858E15000B2BC32 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		00794D3F09D0C461003FC8A1 /* License.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		00CFA89C106B4BA100758660 /* ForceFeedback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForceFeedback.framework; path = System/Library/Frameworks/ForceFeedback.framework; sourceTree = SDKROOT; };
 		00D0D08310675DD9004B05EF /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -3912,7 +3891,6 @@
 		A7D8A67C23E2513E00DCD162 /* SDL_yuv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SDL_yuv.c; sourceTree = "<group>"; };
 		A7D8A67E23E2513E00DCD162 /* SDL_cocoashape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_cocoashape.h; sourceTree = "<group>"; };
 		A7D8A67F23E2513E00DCD162 /* SDL_cocoaopengl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDL_cocoaopengl.m; sourceTree = "<group>"; };
-		A7D8A68023E2513E00DCD162 /* SDL_cocoakeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_cocoakeyboard.h; sourceTree = "<group>"; };
 		A7D8A68123E2513E00DCD162 /* SDL_cocoamodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDL_cocoamodes.m; sourceTree = "<group>"; };
 		A7D8A68223E2513E00DCD162 /* SDL_cocoaopengles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDL_cocoaopengles.m; sourceTree = "<group>"; };
 		A7D8A68323E2513E00DCD162 /* SDL_cocoavulkan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDL_cocoavulkan.m; sourceTree = "<group>"; };
@@ -3923,7 +3901,6 @@
 		A7D8A68923E2513E00DCD162 /* SDL_cocoaevents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDL_cocoaevents.m; sourceTree = "<group>"; };
 		A7D8A68A23E2513E00DCD162 /* SDL_cocoaclipboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_cocoaclipboard.h; sourceTree = "<group>"; };
 		A7D8A68B23E2513E00DCD162 /* SDL_cocoamessagebox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDL_cocoamessagebox.m; sourceTree = "<group>"; };
-		A7D8A68C23E2513E00DCD162 /* SDL_cocoakeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDL_cocoakeyboard.m; sourceTree = "<group>"; };
 		A7D8A68D23E2513E00DCD162 /* SDL_cocoaopengl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_cocoaopengl.h; sourceTree = "<group>"; };
 		A7D8A68E23E2513E00DCD162 /* SDL_cocoashape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDL_cocoashape.m; sourceTree = "<group>"; };
 		A7D8A68F23E2513E00DCD162 /* SDL_cocoavulkan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_cocoavulkan.h; sourceTree = "<group>"; };
@@ -4361,7 +4338,6 @@
 				564624381FF821DA0074AC87 /* Metal.framework in Frameworks */,
 				564624361FF821C20074AC87 /* QuartzCore.framework in Frameworks */,
 				A7381E971D8B6A0300B177DD /* AudioToolbox.framework in Frameworks */,
-				00D0D0D810675E46004B05EF /* Carbon.framework in Frameworks */,
 				007317A40858DECD00B2BC32 /* Cocoa.framework in Frameworks */,
 				A7381E961D8B69D600B177DD /* CoreAudio.framework in Frameworks */,
 				00D0D08410675DD9004B05EF /* CoreFoundation.framework in Frameworks */,
@@ -4391,7 +4367,6 @@
 				DB31406E17554B71006C0E22 /* Cocoa.framework in Frameworks */,
 				DB31407017554B71006C0E22 /* IOKit.framework in Frameworks */,
 				56C523811D8F498C001F2F30 /* CoreFoundation.framework in Frameworks */,
-				DB31407217554B71006C0E22 /* Carbon.framework in Frameworks */,
 				DB31408D17554D3C006C0E22 /* ForceFeedback.framework in Frameworks */,
 				562C4AEA1D8F496300AF9EBE /* AudioToolbox.framework in Frameworks */,
 			);
@@ -4612,7 +4587,6 @@
 				A75FDABD23E28B6200529352 /* GameController.framework */,
 				A75FDAB923E28A7A00529352 /* AVFoundation.framework */,
 				A7381E931D8B69C300B177DD /* AudioToolbox.framework */,
-				007317C10858E15000B2BC32 /* Carbon.framework */,
 				0073179D0858DECD00B2BC32 /* Cocoa.framework */,
 				A7381E951D8B69D600B177DD /* CoreAudio.framework */,
 				00D0D08310675DD9004B05EF /* CoreFoundation.framework */,
@@ -4906,8 +4880,6 @@
 				A7D8A69523E2513E00DCD162 /* SDL_cocoaclipboard.m */,
 				A7D8A69623E2513E00DCD162 /* SDL_cocoaevents.h */,
 				A7D8A68923E2513E00DCD162 /* SDL_cocoaevents.m */,
-				A7D8A68023E2513E00DCD162 /* SDL_cocoakeyboard.h */,
-				A7D8A68C23E2513E00DCD162 /* SDL_cocoakeyboard.m */,
 				A7D8A69423E2513E00DCD162 /* SDL_cocoamessagebox.h */,
 				A7D8A68B23E2513E00DCD162 /* SDL_cocoamessagebox.m */,
 				A7D8A68623E2513E00DCD162 /* SDL_cocoametalview.h */,
@@ -5572,7 +5544,6 @@
 				A1BB8B7327F6CF330057CFA8 /* SDL_list.h in Headers */,
 				A75FCD4823E25AB700529352 /* SDL_keycode.h in Headers */,
 				5616CA63252BB35F005D5928 /* SDL_sysurl.h in Headers */,
-				A75FCD4A23E25AB700529352 /* SDL_cocoakeyboard.h in Headers */,
 				A75FCD4B23E25AB700529352 /* SDL_uikitvulkan.h in Headers */,
 				A75FCD4F23E25AB700529352 /* SDL_loadso.h in Headers */,
 				A75FCD5023E25AB700529352 /* gl2ext.h in Headers */,
@@ -5807,7 +5778,6 @@
 				A1BB8B7427F6CF330057CFA8 /* SDL_list.h in Headers */,
 				A75FCF0123E25AC700529352 /* SDL_keycode.h in Headers */,
 				5616CA66252BB361005D5928 /* SDL_sysurl.h in Headers */,
-				A75FCF0323E25AC700529352 /* SDL_cocoakeyboard.h in Headers */,
 				A75FCF0423E25AC700529352 /* SDL_uikitvulkan.h in Headers */,
 				A75FCF0823E25AC700529352 /* SDL_loadso.h in Headers */,
 				A75FCF0923E25AC700529352 /* gl2ext.h in Headers */,
@@ -6014,7 +5984,6 @@
 				A769B0CB23E259AE00872273 /* SDL_gesture_c.h in Headers */,
 				A769B0CC23E259AE00872273 /* SDL_shaders_gl.h in Headers */,
 				A769B0CD23E259AE00872273 /* SDL_systhread_c.h in Headers */,
-				A769B0D023E259AE00872273 /* SDL_cocoakeyboard.h in Headers */,
 				5616CA5D252BB35E005D5928 /* SDL_sysurl.h in Headers */,
 				A769B0D123E259AE00872273 /* SDL_uikitvulkan.h in Headers */,
 				A769B0D623E259AE00872273 /* gl2ext.h in Headers */,
@@ -6164,7 +6133,6 @@
 				A7D8BB7023E2514500DCD162 /* SDL_clipboardevents_c.h in Headers */,
 				A7D8AECB23E2514100DCD162 /* SDL_cocoaclipboard.h in Headers */,
 				A7D8AF1323E2514100DCD162 /* SDL_cocoaevents.h in Headers */,
-				A7D8AE8F23E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */,
 				A7D8AF0723E2514100DCD162 /* SDL_cocoamessagebox.h in Headers */,
 				A7D8AEB323E2514100DCD162 /* SDL_cocoametalview.h in Headers */,
 				A7D8AEF523E2514100DCD162 /* SDL_cocoamodes.h in Headers */,
@@ -6404,7 +6372,6 @@
 				A7D8BB7123E2514500DCD162 /* SDL_clipboardevents_c.h in Headers */,
 				A7D8AECC23E2514100DCD162 /* SDL_cocoaclipboard.h in Headers */,
 				A7D8AF1423E2514100DCD162 /* SDL_cocoaevents.h in Headers */,
-				A7D8AE9023E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */,
 				A7D8AF0823E2514100DCD162 /* SDL_cocoamessagebox.h in Headers */,
 				A7D8AEB423E2514100DCD162 /* SDL_cocoametalview.h in Headers */,
 				A7D8AEF623E2514100DCD162 /* SDL_cocoamodes.h in Headers */,
@@ -6669,7 +6636,6 @@
 				A7D8BB3D23E2514500DCD162 /* SDL_gesture_c.h in Headers */,
 				A7D8BA7723E2514400DCD162 /* SDL_shaders_gl.h in Headers */,
 				A7D8B42C23E2514300DCD162 /* SDL_systhread_c.h in Headers */,
-				A7D8AE9223E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */,
 				5616CA5A252BB35D005D5928 /* SDL_sysurl.h in Headers */,
 				A7D8ACE523E2514100DCD162 /* SDL_uikitvulkan.h in Headers */,
 				A7D8B22823E2514200DCD162 /* gl2ext.h in Headers */,
@@ -6819,7 +6785,6 @@
 				A7D8BB6F23E2514500DCD162 /* SDL_clipboardevents_c.h in Headers */,
 				A7D8AECA23E2514100DCD162 /* SDL_cocoaclipboard.h in Headers */,
 				A7D8AF1223E2514100DCD162 /* SDL_cocoaevents.h in Headers */,
-				A7D8AE8E23E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */,
 				A7D8AF0623E2514100DCD162 /* SDL_cocoamessagebox.h in Headers */,
 				A7D8AEB223E2514100DCD162 /* SDL_cocoametalview.h in Headers */,
 				A7D8AEF423E2514100DCD162 /* SDL_cocoamodes.h in Headers */,
@@ -7081,7 +7046,6 @@
 				A7D8BBEF23E2574800DCD162 /* SDL_uikitclipboard.h in Headers */,
 				A7D8BA7623E2514400DCD162 /* SDL_shaders_gl.h in Headers */,
 				A7D8B42B23E2514300DCD162 /* SDL_systhread_c.h in Headers */,
-				A7D8AE9123E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */,
 				A7D8B22723E2514200DCD162 /* gl2ext.h in Headers */,
 				A7D8BB7223E2514500DCD162 /* SDL_clipboardevents_c.h in Headers */,
 				A7D8AAE323E2514100DCD162 /* SDL_syshaptic_c.h in Headers */,
@@ -7285,7 +7249,6 @@
 				A7D8B42D23E2514300DCD162 /* SDL_systhread_c.h in Headers */,
 				A1BB8B7227F6CF330057CFA8 /* SDL_list.h in Headers */,
 				DB313FDB17554B71006C0E22 /* SDL_keycode.h in Headers */,
-				A7D8AE9323E2514100DCD162 /* SDL_cocoakeyboard.h in Headers */,
 				A7D8ACE623E2514100DCD162 /* SDL_uikitvulkan.h in Headers */,
 				DB313FDC17554B71006C0E22 /* SDL_loadso.h in Headers */,
 				A7D8B22923E2514200DCD162 /* gl2ext.h in Headers */,
@@ -7962,7 +7925,6 @@
 				A75FCE2923E25AB700529352 /* e_atan2.c in Sources */,
 				A75FCE2A23E25AB700529352 /* s_sin.c in Sources */,
 				A75FCE2B23E25AB700529352 /* SDL_power.c in Sources */,
-				A75FCE2C23E25AB700529352 /* SDL_cocoakeyboard.m in Sources */,
 				A75FCE2D23E25AB700529352 /* SDL_dynapi.c in Sources */,
 				F388C95C28B5F6F700661ECF /* SDL_hidapi_ps3.c in Sources */,
 				A75FCE2E23E25AB700529352 /* SDL_shaders_gl.c in Sources */,
@@ -8162,7 +8124,6 @@
 				A75FCFE223E25AC700529352 /* e_atan2.c in Sources */,
 				A75FCFE323E25AC700529352 /* s_sin.c in Sources */,
 				A75FCFE423E25AC700529352 /* SDL_power.c in Sources */,
-				A75FCFE523E25AC700529352 /* SDL_cocoakeyboard.m in Sources */,
 				A75FCFE623E25AC700529352 /* SDL_dynapi.c in Sources */,
 				F388C95D28B5F6F700661ECF /* SDL_hidapi_ps3.c in Sources */,
 				A75FCFE723E25AC700529352 /* SDL_shaders_gl.c in Sources */,
@@ -8356,7 +8317,6 @@
 				A769B1B323E259AE00872273 /* s_sin.c in Sources */,
 				A769B1B423E259AE00872273 /* SDL_power.c in Sources */,
 				F386F6FE2884663E001840AA /* SDL_utils.c in Sources */,
-				A769B1B523E259AE00872273 /* SDL_cocoakeyboard.m in Sources */,
 				A769B1B623E259AE00872273 /* SDL_dynapi.c in Sources */,
 				A769B1B723E259AE00872273 /* SDL_shaders_gl.c in Sources */,
 				F38233912738EBF100F7F527 /* SDL_hidapi.c in Sources */,
@@ -8560,7 +8520,6 @@
 				A7D8BACE23E2514500DCD162 /* e_atan2.c in Sources */,
 				A7D8BA8C23E2514400DCD162 /* s_sin.c in Sources */,
 				A7D8B5E823E2514300DCD162 /* SDL_power.c in Sources */,
-				A7D8AED723E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */,
 				A7D8AB1723E2514100DCD162 /* SDL_dynapi.c in Sources */,
 				A7D8BA8623E2514400DCD162 /* SDL_shaders_gl.c in Sources */,
 				A7D8BAF223E2514500DCD162 /* e_log.c in Sources */,
@@ -8760,7 +8719,6 @@
 				A7D8BACF23E2514500DCD162 /* e_atan2.c in Sources */,
 				A7D8BA8D23E2514400DCD162 /* s_sin.c in Sources */,
 				A7D8B5E923E2514300DCD162 /* SDL_power.c in Sources */,
-				A7D8AED823E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */,
 				A7D8AB1823E2514100DCD162 /* SDL_dynapi.c in Sources */,
 				A7D8BA8723E2514400DCD162 /* SDL_shaders_gl.c in Sources */,
 				A7D8BAF323E2514500DCD162 /* e_log.c in Sources */,
@@ -8957,7 +8915,6 @@
 				A7D8BA8F23E2514400DCD162 /* s_sin.c in Sources */,
 				A7D8B5EB23E2514300DCD162 /* SDL_power.c in Sources */,
 				F386F6FD2884663E001840AA /* SDL_utils.c in Sources */,
-				A7D8AEDA23E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */,
 				A7D8AB1A23E2514100DCD162 /* SDL_dynapi.c in Sources */,
 				A7D8BA8923E2514400DCD162 /* SDL_shaders_gl.c in Sources */,
 				F38233902738EBF000F7F527 /* SDL_hidapi.c in Sources */,
@@ -9169,7 +9126,6 @@
 				A7D8BBEB23E2574800DCD162 /* SDL_uikitwindow.m in Sources */,
 				F395BF6525633B2400942BFF /* SDL_crc32.c in Sources */,
 				A7D8B5E723E2514300DCD162 /* SDL_power.c in Sources */,
-				A7D8AED623E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */,
 				A7D8AB1623E2514100DCD162 /* SDL_dynapi.c in Sources */,
 				A7D8BA8523E2514400DCD162 /* SDL_shaders_gl.c in Sources */,
 				A7D8BAF123E2514500DCD162 /* e_log.c in Sources */,
@@ -9364,7 +9320,6 @@
 				F362B95E2B33EB7300D30B94 /* SDL_steam_virtual_gamepad.c in Sources */,
 				F316AB9A2B5A02C3002EF551 /* yuv_rgb_std.c in Sources */,
 				A7D8B5EA23E2514300DCD162 /* SDL_power.c in Sources */,
-				A7D8AED923E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */,
 				A7D8AB1923E2514100DCD162 /* SDL_dynapi.c in Sources */,
 				F395BF6825633B2400942BFF /* SDL_crc32.c in Sources */,
 				A7D8BA8823E2514400DCD162 /* SDL_shaders_gl.c in Sources */,
@@ -9564,7 +9519,6 @@
 				F316AB9D2B5A02C3002EF551 /* yuv_rgb_std.c in Sources */,
 				A7D8BA9023E2514400DCD162 /* s_sin.c in Sources */,
 				A7D8B5EC23E2514300DCD162 /* SDL_power.c in Sources */,
-				A7D8AEDB23E2514100DCD162 /* SDL_cocoakeyboard.m in Sources */,
 				F395BF6B25633B2400942BFF /* SDL_crc32.c in Sources */,
 				A7D8AB1B23E2514100DCD162 /* SDL_dynapi.c in Sources */,
 				A7D8BA8A23E2514400DCD162 /* SDL_shaders_gl.c in Sources */,
