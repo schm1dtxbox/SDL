@@ -26,14 +26,9 @@ jobs:
     - name: Build
       run: |
         cmake --build build/ --config Release --parallel
-
+        
     - name: Upload
       uses: actions/upload-artifact@v4.3.3
       with:
-        path: /Users/runner/work/SDL/SDL/CMakeChecksCache
-        
-    - name: Upload2
-      uses: actions/upload-artifact@v4.3.3
-      with:
-        path: build/libSDL2-2.0.0.dylib
+        path: build/
                 
