@@ -15,29 +15,13 @@ jobs:
       fail-fast: false         
 
     steps:
-    - name: Setup Dependencies
-      run: |
-        brew install \
-          autoconf \
-          ninja 
-
     - uses: actions/checkout@v4
     - name: Configure
       run: |
-        cmake -S . -B build -G Ninja \
-        -DSDL_VENDOR_INFO="Github Workflow" \
-        -DCMAKE_INSTALL_PREFIX=cmake_prefix \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_OSX_ARCHITECTURES="arm64"
-    - name: Build
-      run: |
-        cmake --build build/ --config Release --parallel
-    - name: Install
-      run: |
-        set -eu
-        cmake --install build/ --config Release
-        echo "SDL2_DIR=$(pwd)/cmake_prefix" >> $GITHUB_ENV
-        ( cd cmake_prefix; find ) | LC_ALL=C sort -u
+        mkdir build
+        cd build 
+        CC=/Users/runner/work/SDL/SDL/build-scripts/clang-fat.sh ../configure
+        make
     - name: Upload
       uses: actions/upload-artifact@v4.3.3
       with:
