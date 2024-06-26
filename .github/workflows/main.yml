@@ -21,11 +21,13 @@ jobs:
         cmake -B build \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_OSX_ARCHITECTURES="arm64"
+        
     - name: Build
       run: |
         cmake --build build/ --config Release --parallel
+        
     - name: Upload1
-    - uses: actions/upload-artifact@v4.3.3
+      uses: actions/upload-artifact@v4.3.3
       with:
         path: CMakeCache.txt
     - name: Upload2
