@@ -36,177 +36,30 @@
 #define DLog(...) do { } while (0)
 #endif
 
-@implementation NSCursor (InvisibleCursor)
-+ (NSCursor *)invisibleCursor
-{
-    static NSCursor *invisibleCursor = NULL;
-    if (!invisibleCursor) {
-        /* RAW 16x16 transparent GIF */
-        static unsigned char cursorBytes[] = {
-            0x47, 0x49, 0x46, 0x38, 0x37, 0x61, 0x10, 0x00, 0x10, 0x00, 0x80,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0xF9, 0x04,
-            0x01, 0x00, 0x00, 0x01, 0x00, 0x2C, 0x00, 0x00, 0x00, 0x00, 0x10,
-            0x00, 0x10, 0x00, 0x00, 0x02, 0x0E, 0x8C, 0x8F, 0xA9, 0xCB, 0xED,
-            0x0F, 0xA3, 0x9C, 0xB4, 0xDA, 0x8B, 0xB3, 0x3E, 0x05, 0x00, 0x3B
-        };
-
-        NSData *cursorData = [NSData dataWithBytesNoCopy:&cursorBytes[0]
-                                                  length:sizeof(cursorBytes)
-                                            freeWhenDone:NO];
-        NSImage *cursorImage = [[NSImage alloc] initWithData:cursorData];
-        invisibleCursor = [[NSCursor alloc] initWithImage:cursorImage
-                                                  hotSpot:NSZeroPoint];
-    }
-
-    return invisibleCursor;
-}
-@end
-
 
 static SDL_Cursor *Cocoa_CreateDefaultCursor()
 { @autoreleasepool
 {
-    NSCursor *nscursor;
-    SDL_Cursor *cursor = NULL;
-
-    nscursor = [NSCursor arrowCursor];
-
-    if (nscursor) {
-        cursor = SDL_calloc(1, sizeof(*cursor));
-        if (cursor) {
-            cursor->driverdata = (void *)CFBridgingRetain(nscursor);
-        }
-    }
-
-    return cursor;
+    return NULL;
 }}
 
 static SDL_Cursor *Cocoa_CreateCursor(SDL_Surface * surface, int hot_x, int hot_y)
 { @autoreleasepool
 {
-    NSImage *nsimage;
-    NSCursor *nscursor = NULL;
-    SDL_Cursor *cursor = NULL;
-
-    nsimage = Cocoa_CreateImage(surface);
-    if (nsimage) {
-        nscursor = [[NSCursor alloc] initWithImage: nsimage hotSpot: NSMakePoint(hot_x, hot_y)];
-    }
-
-    if (nscursor) {
-        cursor = SDL_calloc(1, sizeof(*cursor));
-        if (cursor) {
-            cursor->driverdata = (void *)CFBridgingRetain(nscursor);
-        }
-    }
-
-    return cursor;
+    return NULL;
 }}
 
-/* there are .pdf files of some of the cursors we need, installed by default on macOS, but not available through NSCursor.
-   If we can load them ourselves, use them, otherwise fallback to something standard but not super-great.
-   Since these are under /System, they should be available even to sandboxed apps. */
-static NSCursor *LoadHiddenSystemCursor(NSString *cursorName, SEL fallback)
-{
-    NSString *cursorPath = [@"/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/Resources/cursors" stringByAppendingPathComponent:cursorName];
-    NSDictionary *info = [NSDictionary dictionaryWithContentsOfFile:[cursorPath stringByAppendingPathComponent:@"info.plist"]];
-    /* we can't do animation atm.  :/ */
-    const int frames = (int)[[info valueForKey:@"frames"] integerValue];
-    NSCursor *cursor;
-    NSImage *image = [[NSImage alloc] initWithContentsOfFile:[cursorPath stringByAppendingPathComponent:@"cursor.pdf"]];
-    if ((image == nil) || (image.isValid == NO)) {
-        return [NSCursor performSelector:fallback];
-    }
-
-    if (frames > 1) {
-        #ifdef MAC_OS_VERSION_12_0  /* same value as deprecated symbol. */
-        const NSCompositingOperation operation = NSCompositingOperationCopy;
-        #else
-        const NSCompositingOperation operation = NSCompositeCopy;
-        #endif
-        const NSSize cropped_size = NSMakeSize(image.size.width, (int) (image.size.height / frames));
-        NSImage *cropped = [[NSImage alloc] initWithSize:cropped_size];
-        if (cropped == nil) {
-            return [NSCursor performSelector:fallback];
-        }
-
-        [cropped lockFocus];
-        {
-            const NSRect cropped_rect = NSMakeRect(0, 0, cropped_size.width, cropped_size.height);
-            [image drawInRect:cropped_rect fromRect:cropped_rect operation:operation fraction:1];
-        }
-        [cropped unlockFocus];
-        image = cropped;
-    }
-
-    cursor = [[NSCursor alloc] initWithImage:image hotSpot:NSMakePoint([[info valueForKey:@"hotx"] doubleValue], [[info valueForKey:@"hoty"] doubleValue])];
-    return cursor;
-}
 
 static SDL_Cursor *Cocoa_CreateSystemCursor(SDL_SystemCursor id)
 { @autoreleasepool
 {
-    NSCursor *nscursor = NULL;
-    SDL_Cursor *cursor = NULL;
-
-    switch(id) {
-    case SDL_SYSTEM_CURSOR_ARROW:
-        nscursor = [NSCursor arrowCursor];
-        break;
-    case SDL_SYSTEM_CURSOR_IBEAM:
-        nscursor = [NSCursor IBeamCursor];
-        break;
-    case SDL_SYSTEM_CURSOR_CROSSHAIR:
-        nscursor = [NSCursor crosshairCursor];
-        break;
-    case SDL_SYSTEM_CURSOR_WAIT:  /* !!! FIXME: this is more like WAITARROW */
-        nscursor = LoadHiddenSystemCursor(@"busybutclickable", @selector(arrowCursor));
-        break;
-    case SDL_SYSTEM_CURSOR_WAITARROW:  /* !!! FIXME: this is meant to be animated */
-        nscursor = LoadHiddenSystemCursor(@"busybutclickable", @selector(arrowCursor));
-        break;
-    case SDL_SYSTEM_CURSOR_SIZENWSE:
-        nscursor = LoadHiddenSystemCursor(@"resizenorthwestsoutheast", @selector(closedHandCursor));
-        break;
-    case SDL_SYSTEM_CURSOR_SIZENESW:
-        nscursor = LoadHiddenSystemCursor(@"resizenortheastsouthwest", @selector(closedHandCursor));
-        break;
-    case SDL_SYSTEM_CURSOR_SIZEWE:
-        nscursor = LoadHiddenSystemCursor(@"resizeeastwest", @selector(resizeLeftRightCursor));
-        break;
-    case SDL_SYSTEM_CURSOR_SIZENS:
-        nscursor = LoadHiddenSystemCursor(@"resizenorthsouth", @selector(resizeUpDownCursor));
-        break;
-    case SDL_SYSTEM_CURSOR_SIZEALL:
-        nscursor = LoadHiddenSystemCursor(@"move", @selector(closedHandCursor));
-        break;
-    case SDL_SYSTEM_CURSOR_NO:
-        nscursor = [NSCursor operationNotAllowedCursor];
-        break;
-    case SDL_SYSTEM_CURSOR_HAND:
-        nscursor = [NSCursor pointingHandCursor];
-        break;
-    default:
-        SDL_assert(!"Unknown system cursor");
-        return NULL;
-    }
-
-    if (nscursor) {
-        cursor = SDL_calloc(1, sizeof(*cursor));
-        if (cursor) {
-            /* We'll free it later, so retain it here */
-            cursor->driverdata = (void *)CFBridgingRetain(nscursor);
-        }
-    }
-
-    return cursor;
+    return NULL;
 }}
 
 static void Cocoa_FreeCursor(SDL_Cursor * cursor)
 { @autoreleasepool
 {
-    CFBridgingRelease(cursor->driverdata);
-    SDL_free(cursor);
+    return;
 }}
 
 static int Cocoa_ShowCursor(SDL_Cursor * cursor)
@@ -271,30 +124,6 @@ static Uint32 Cocoa_GetGlobalMouseState(int *x, int *y)
 
 int Cocoa_InitMouse(_THIS)
 {
-    NSPoint location;
-    SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_MouseData *driverdata = (SDL_MouseData*) SDL_calloc(1, sizeof(SDL_MouseData));
-    if (driverdata == NULL) {
-        return SDL_OutOfMemory();
-    }
-
-    mouse->driverdata = driverdata;
-    mouse->CreateCursor = Cocoa_CreateCursor;
-    mouse->CreateSystemCursor = Cocoa_CreateSystemCursor;
-    mouse->ShowCursor = Cocoa_ShowCursor;
-    mouse->FreeCursor = Cocoa_FreeCursor;
-    mouse->WarpMouse = Cocoa_WarpMouse;
-    mouse->WarpMouseGlobal = Cocoa_WarpMouseGlobal;
-    mouse->SetRelativeMouseMode = Cocoa_SetRelativeMouseMode;
-    mouse->CaptureMouse = Cocoa_CaptureMouse;
-    mouse->GetGlobalMouseState = Cocoa_GetGlobalMouseState;
-
-    SDL_SetDefaultCursor(Cocoa_CreateDefaultCursor());
-    [NSCursor setHiddenUntilMouseMoves:true];
-
-    location =  [NSEvent mouseLocation];
-    driverdata->lastMoveX = location.x;
-    driverdata->lastMoveY = location.y;
     return 0;
 }
 
@@ -345,7 +174,6 @@ void Cocoa_HandleMouseEvent(_THIS, NSEvent *event)
         case NSEventTypeLeftMouseDragged:
         case NSEventTypeRightMouseDragged:
         case NSEventTypeOtherMouseDragged:
-            [NSCursor setHiddenUntilMouseMoves:true];
             break;
 
         case NSEventTypeLeftMouseDown:
