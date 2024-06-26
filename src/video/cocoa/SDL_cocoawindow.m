@@ -1637,9 +1637,11 @@ int Cocoa_CreateWindow(_THIS, SDL_Window * window)
      setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
                              | NSApplicationPresentationHideDock
                              | NSApplicationPresentationDisableHideApplication];
+        [NSCursor setHiddenUntilMouseMoves:YES];
     } else {
         [[NSApplication sharedApplication]
      setPresentationOptions:   NSApplicationPresentationDisableHideApplication];
+        [NSCursor setHiddenUntilMouseMoves:NO];
     }
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= 101200 /* Added in the 10.12.0 SDK. */
@@ -2017,6 +2019,7 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
      setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
                              | NSApplicationPresentationHideDock
                              | NSApplicationPresentationDisableHideApplication];
+        [NSCursor setHiddenUntilMouseMoves:YES];
     } else {
         NSRect frameRect;
         rect.origin.x = window->windowed.x;
@@ -2039,6 +2042,7 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
         [nswindow setFrame:frameRect display:NO];
         [[NSApplication sharedApplication]
      setPresentationOptions:   NSApplicationPresentationDisableHideApplication];
+        [NSCursor setHiddenUntilMouseMoves:NO];
     }
 
     /* The view responder chain gets messed with during setStyleMask */
