@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build
       run: |
-        xcodebuild -project /Users/runner/work/SDL/SDL/Xcode/SDL/SDL.xcodeproj -target SDL2.dmg -configuration Release
+        xcodebuild -project /Users/runner/work/SDL/SDL/Xcode/SDL/SDL.xcodeproj -target "Standard DMG" -configuration Release
     - name: Upload
       uses: actions/upload-artifact@v4.3.3
       with:
