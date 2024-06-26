@@ -16,6 +16,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Configure
+      run: |
+        cmake -B build \
+        -DCMAKE_INSTALL_PREFIX=cmake_prefix \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_OSX_ARCHITECTURES="arm64"
     - name: Build
       run: |
         cmake --build build/ --config Release --parallel
