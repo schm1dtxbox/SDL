@@ -18,13 +18,13 @@ jobs:
     - uses: actions/checkout@v4
     - name: Configure
       run: |
-        cmake -B build -G Xcode \
+        cmake -B build -C cmake_checks_cache.txt \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_OSX_ARCHITECTURES="arm64"
         
     - name: Build
       run: |
-        cmake --build build/ --config Release --parallel
+        cmake --build build/ -t all/fast --config Release --parallel
         
     - name: Upload
       uses: actions/upload-artifact@v4.3.3
