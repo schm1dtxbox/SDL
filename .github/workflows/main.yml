@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Configure
       run: |
-        cmake -B build \
+        cmake -B build -C cmake_checks_cache.txt \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_MODULE_PATH=/Users/runner/work/SDL/SDL/CMakeChecksCache \
         -DCMAKE_OSX_ARCHITECTURES="arm64"
