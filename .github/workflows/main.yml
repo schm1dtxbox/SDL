@@ -16,11 +16,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Configure
+      run: |
+        cmake -B build \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_OSX_ARCHITECTURES="arm64"
     - name: Build
       run: |
-        xcodebuild -project /Users/runner/work/SDL/SDL/Xcode/SDL/SDL.xcodeproj -target "Standard DMG" -configuration Release
+        cmake --build build/ --config Release --parallel
     - name: Upload
       uses: actions/upload-artifact@v4.3.3
       with:
-        path: /Users/runner/work/SDL/SDL/Xcode/SDL/build/SDL2.dmg
+        path: build/libSDL2-2.0.0.dylib
                 
