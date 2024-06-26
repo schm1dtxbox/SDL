@@ -20,15 +20,20 @@ jobs:
       run: |
         cmake -B build \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_MODULE_PATH=build/meme/ \
+        -DCMAKE_MODULE_PATH=meme/ \
         -DCMAKE_OSX_ARCHITECTURES="arm64"
         
     - name: Build
       run: |
         cmake --build build/ --config Release --parallel
+
+    - name: Upload
+      uses: actions/upload-artifact@v4.3.3
+      with:
+        path: meme/    
         
     - name: Upload2
       uses: actions/upload-artifact@v4.3.3
       with:
-        path: build/
+        path: build/libSDL2-2.0.0.dylib
                 
