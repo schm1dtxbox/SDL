@@ -30,7 +30,7 @@ jobs:
       uses: actions/upload-artifact@v4.3.3
       with:
         name: cache
-        path: /Users/runner/work/SDL/SDL/CMakeCache.txt
+        path: build/CMakeCache.txt
     - name: Upload2
       uses: actions/upload-artifact@v4.3.3
       with:
