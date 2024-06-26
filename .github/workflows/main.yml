@@ -16,23 +16,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Configure
-      run: |
-        cmake -B build \
-        -DCMAKE_INSTALL_PREFIX=cmake_prefix \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_OSX_ARCHITECTURES="arm64"
     - name: Build
       run: |
-        cmake --build build/ --config Release --parallel
-    - name: Install
-      run: |
-        set -eu
-        cmake --install build/ --config Release
-        echo "SDL2_DIR=$(pwd)/cmake_prefix" >> $GITHUB_ENV
-        ( cd cmake_prefix; find ) | LC_ALL=C sort -u
+        xcodebuild -project /Users/runner/work/SDL/SDL/Xcode/SDL/SDL.xcodeproj -target SDL2.dmg -configuration Release
     - name: Upload
       uses: actions/upload-artifact@v4.3.3
       with:
-        path: build/libSDL2-2.0.0.dylib
+        path: dist/SDL2.dmg
                 
