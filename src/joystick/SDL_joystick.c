@@ -34,7 +34,6 @@
 #include "../events/SDL_events_c.h"
 #endif
 #include "../video/SDL_sysvideo.h"
-#include "hidapi/SDL_hidapijoystick_c.h"
 
 /* This is included in only one place because it has a large static list of controllers */
 #include "controller_type.h"
@@ -52,9 +51,6 @@
 #endif
 
 static SDL_JoystickDriver *SDL_joystick_drivers[] = {
-#ifdef SDL_JOYSTICK_HIDAPI /* Before WINDOWS_ driver, as WINDOWS wants to check if this driver is handling things */
-    &SDL_HIDAPI_JoystickDriver,
-#endif
 #ifdef SDL_JOYSTICK_RAWINPUT /* Before WINDOWS_ driver, as WINDOWS wants to check if this driver is handling things */
     &SDL_RAWINPUT_JoystickDriver,
 #endif
@@ -2171,11 +2167,6 @@ void SDL_JoystickUpdate(void)
         SendSteamHandleUpdateEvents();
     }
 
-#ifdef SDL_JOYSTICK_HIDAPI
-    /* Special function for HIDAPI devices, as a single device can provide multiple SDL_Joysticks */
-    HIDAPI_UpdateDevices();
-#endif /* SDL_JOYSTICK_HIDAPI */
-
     for (joystick = SDL_joysticks; joystick; joystick = joystick->next) {
         if (joystick->attached) {
             joystick->driver->Update(joystick);
@@ -2648,11 +2639,6 @@ SDL_GameControllerType SDL_GetJoystickGameControllerTypeFromGUID(SDL_JoystickGUI
         if (SDL_IsJoystickVirtual(guid)) {
             return SDL_CONTROLLER_TYPE_VIRTUAL;
         }
-#ifdef SDL_JOYSTICK_HIDAPI
-        if (SDL_IsJoystickHIDAPI(guid)) {
-            return HIDAPI_GetGameControllerTypeFromGUID(guid);
-        }
-#endif /* SDL_JOYSTICK_HIDAPI */
     }
     return type;
 }
@@ -2948,12 +2934,6 @@ static SDL_JoystickType SDL_GetJoystickGUIDType(SDL_JoystickGUID guid)
     if (SDL_IsJoystickVirtual(guid)) {
         return (SDL_JoystickType)guid.data[15];
     }
-
-#ifdef SDL_JOYSTICK_HIDAPI
-    if (SDL_IsJoystickHIDAPI(guid)) {
-        return HIDAPI_GetJoystickTypeFromGUID(guid);
-    }
-#endif /* SDL_JOYSTICK_HIDAPI */
 
     if (GuessControllerType(vendor, product) != k_eControllerType_UnknownNonSteamController) {
         return SDL_JOYSTICK_TYPE_GAMECONTROLLER;
