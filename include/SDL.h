@@ -42,7 +42,6 @@
 #include "SDL_gamecontroller.h"
 #include "SDL_guid.h"
 #include "SDL_haptic.h"
-#include "SDL_hidapi.h"
 #include "SDL_hints.h"
 #include "SDL_joystick.h"
 #include "SDL_loadso.h"
