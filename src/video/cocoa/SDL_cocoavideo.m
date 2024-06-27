@@ -32,7 +32,6 @@
 #include "SDL_cocoashape.h"
 #include "SDL_cocoavulkan.h"
 #include "SDL_cocoametalview.h"
-#include "SDL_cocoaopengles.h"
 #include "SDL_cocoamessagebox.h"
 
 @implementation SDL_VideoData
@@ -135,16 +134,6 @@ static SDL_VideoDevice *Cocoa_CreateDevice(void)
     device->GL_GetSwapInterval = Cocoa_GL_GetSwapInterval;
     device->GL_SwapWindow = Cocoa_GL_SwapWindow;
     device->GL_DeleteContext = Cocoa_GL_DeleteContext;
-#elif defined(SDL_VIDEO_OPENGL_EGL)
-    device->GL_LoadLibrary = Cocoa_GLES_LoadLibrary;
-    device->GL_GetProcAddress = Cocoa_GLES_GetProcAddress;
-    device->GL_UnloadLibrary = Cocoa_GLES_UnloadLibrary;
-    device->GL_CreateContext = Cocoa_GLES_CreateContext;
-    device->GL_MakeCurrent = Cocoa_GLES_MakeCurrent;
-    device->GL_SetSwapInterval = Cocoa_GLES_SetSwapInterval;
-    device->GL_GetSwapInterval = Cocoa_GLES_GetSwapInterval;
-    device->GL_SwapWindow = Cocoa_GLES_SwapWindow;
-    device->GL_DeleteContext = Cocoa_GLES_DeleteContext;
 #endif
 
 #ifdef SDL_VIDEO_VULKAN
