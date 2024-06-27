@@ -29,6 +29,7 @@
 #include "SDL_hints.h"
 #include "../SDL_hints_c.h"
 #include "SDL_steam_virtual_gamepad.h"
+#include "usb_ids.h"
 
 #ifndef SDL_EVENTS_DISABLED
 #include "../events/SDL_events_c.h"
