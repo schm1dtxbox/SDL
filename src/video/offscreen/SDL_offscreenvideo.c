@@ -35,7 +35,6 @@
 #include "SDL_offscreenvideo.h"
 #include "SDL_offscreenevents_c.h"
 #include "SDL_offscreenframebuffer_c.h"
-#include "SDL_offscreenopengles.h"
 #include "SDL_offscreenwindow.h"
 
 #define OFFSCREENVID_DRIVER_NAME "offscreen"
@@ -72,19 +71,6 @@ static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
     device->UpdateWindowFramebuffer = SDL_OFFSCREEN_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = SDL_OFFSCREEN_DestroyWindowFramebuffer;
     device->free = OFFSCREEN_DeleteDevice;
-
-#ifdef SDL_VIDEO_OPENGL_EGL
-    /* GL context */
-    device->GL_SwapWindow = OFFSCREEN_GLES_SwapWindow;
-    device->GL_MakeCurrent = OFFSCREEN_GLES_MakeCurrent;
-    device->GL_CreateContext = OFFSCREEN_GLES_CreateContext;
-    device->GL_DeleteContext = OFFSCREEN_GLES_DeleteContext;
-    device->GL_LoadLibrary = OFFSCREEN_GLES_LoadLibrary;
-    device->GL_UnloadLibrary = OFFSCREEN_GLES_UnloadLibrary;
-    device->GL_GetProcAddress = OFFSCREEN_GLES_GetProcAddress;
-    device->GL_GetSwapInterval = OFFSCREEN_GLES_GetSwapInterval;
-    device->GL_SetSwapInterval = OFFSCREEN_GLES_SetSwapInterval;
-#endif
 
     /* "Window" */
     device->CreateSDLWindow = OFFSCREEN_CreateWindow;
