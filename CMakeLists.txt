@@ -186,24 +186,6 @@ else()
   set(SDL_CLOCK_GETTIME_ENABLED_BY_DEFAULT OFF)
 endif()
 
-# The hidraw support doesn't catch Xbox, PS4 and Nintendo controllers,
-#  so we'll just use libusb when it's available. libusb does not support iOS,
-#  so we default to yes on iOS.
-#  TODO: Windows can support libusb, the hid.c file just depends on Unix APIs
-if((WINDOWS AND NOT WINDOWS_STORE) OR IOS OR TVOS OR ANDROID)
-  set(HIDAPI_SKIP_LIBUSB TRUE)
-else()
-  set(HIDAPI_SKIP_LIBUSB FALSE)
-endif()
-
-# On the other hand, *BSD specifically uses libusb only, so we make a special
-#  case just for them.
-if(FREEBSD OR NETBSD OR OPENBSD OR BSDI)
-  set(HIDAPI_ONLY_LIBUSB TRUE)
-else()
-  set(HIDAPI_ONLY_LIBUSB FALSE)
-endif()
-
 # Compiler info
 if(CMAKE_C_COMPILER_ID MATCHES "Clang|IntelLLVM")
   set(USE_CLANG TRUE)
@@ -366,7 +348,7 @@ endif()
 set(LONGESTOPTIONNAME 0)  # set_option and friends will change this.
 
 set(SDL_SUBSYSTEMS
-    Atomic Audio Video Render Events Joystick Haptic Hidapi Power Threads Timers
+    Atomic Audio Video Render Events Joystick Haptic Power Threads Timers
     File Loadso CPUinfo Filesystem Sensor Locale Misc)
 foreach(_SUB ${SDL_SUBSYSTEMS})
   string(TOUPPER ${_SUB} _OPT)
@@ -494,7 +476,6 @@ file(GLOB SOURCE_FILES
   ${SDL2_SOURCE_DIR}/src/file/*.c
   ${SDL2_SOURCE_DIR}/src/joystick/*.c
   ${SDL2_SOURCE_DIR}/src/haptic/*.c
-  ${SDL2_SOURCE_DIR}/src/hidapi/*.c
   ${SDL2_SOURCE_DIR}/src/libm/*.c
   ${SDL2_SOURCE_DIR}/src/locale/*.c
   ${SDL2_SOURCE_DIR}/src/misc/*.c
