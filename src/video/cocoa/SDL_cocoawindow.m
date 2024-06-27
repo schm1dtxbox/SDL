@@ -39,7 +39,6 @@
 #include "SDL_cocoashape.h"
 #include "SDL_cocoamouse.h"
 #include "SDL_cocoaopengl.h"
-#include "SDL_cocoaopengles.h"
 
 /* #define DEBUG_COCOAWINDOW */
 
@@ -1681,14 +1680,6 @@ int Cocoa_CreateWindow(_THIS, SDL_Window * window)
     #pragma clang diagnostic pop
     #endif
 
-#ifdef SDL_VIDEO_OPENGL_ES2
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if ((window->flags & SDL_WINDOW_OPENGL) &&
-        _this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) {
-        [contentView setWantsLayer:TRUE];
-    }
-#endif /* SDL_VIDEO_OPENGL_EGL */
-#endif /* SDL_VIDEO_OPENGL_ES2 */
     [nswindow setContentView:contentView];
 
     if (SetupWindowData(_this, window, nswindow, contentView, SDL_TRUE) < 0) {
@@ -1698,21 +1689,7 @@ int Cocoa_CreateWindow(_THIS, SDL_Window * window)
     if (!(window->flags & SDL_WINDOW_OPENGL)) {
         return 0;
     }
-
-    /* The rest of this macro mess is for OpenGL or OpenGL ES windows */
-#ifdef SDL_VIDEO_OPENGL_ES2
-    if (_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) {
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (Cocoa_GLES_SetupWindow(_this, window) < 0) {
-            Cocoa_DestroyWindow(_this, window);
-            return -1;
-        }
-        return 0;
-#else
-        return SDL_SetError("Could not create GLES window surface (EGL support not configured)");
-#endif /* SDL_VIDEO_OPENGL_EGL */
-    }
-#endif /* SDL_VIDEO_OPENGL_ES2 */
+    
     return 0;
 }}
 
