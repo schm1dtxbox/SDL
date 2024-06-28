@@ -270,15 +270,7 @@ static void Cocoa_DispatchEvent(NSEvent *theEvent)
      * de-focused and re-focused), if this call is in Cocoa_RegisterApp instead
      * of here. https://bugzilla.libsdl.org/show_bug.cgi?id=3051
      */
-    if (!SDL_GetHintBoolean(SDL_HINT_MAC_BACKGROUND_APP, SDL_FALSE)) {
-        /* Get more aggressive for Catalina: activate the Dock first so we definitely reset all activation state. */
-        for (NSRunningApplication *i in [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.apple.dock"]) {
-            [i activateWithOptions:NSApplicationActivateIgnoringOtherApps];
-            break;
-        }
-        SDL_Delay(300);  /* !!! FIXME: this isn't right. */
-        [NSApp activateIgnoringOtherApps:YES];
-    }
+    [NSApp activateIgnoringOtherApps:YES];
 
     /* If we call this before NSApp activation, macOS might print a complaint
      * about ApplePersistenceIgnoreState. */
