@@ -448,22 +448,9 @@ void Cocoa_RegisterApp(void)
                              | NSApplicationPresentationAutoHideDock];
 
         s_bShouldHandleEventsInSDLApplication = SDL_TRUE;
-
-        if (!SDL_GetHintBoolean(SDL_HINT_MAC_BACKGROUND_APP, SDL_FALSE)) {
-            [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-        }
-
-        /* If there aren't already menus in place, look to see if there's
-         * a nib we should use. If not, then manually create the basic
-         * menus we meed.
-         */
+        
         if ([NSApp mainMenu] == nil) {
-            bool nibLoaded;
-
-            nibLoaded = LoadMainMenuNibIfAvailable();
-            if (!nibLoaded) {
-                CreateApplicationMenus();
-            }
+            CreateApplicationMenus();
         }
         [NSApp finishLaunching];
         if ([NSApp delegate]) {
