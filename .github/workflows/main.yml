@@ -8,6 +8,7 @@ jobs:
     runs-on: macos-latest 
 
     steps:
+    - uses: actions/checkout@v4
     - name: Configure
       run: |
         cmake -B build -C cmake_checks_cache.txt \
