@@ -1628,8 +1628,10 @@ SDL_Window *SDL_CreateWindow(const char *title, int x, int y, int w, int h, Uint
     Uint32 type_flags, graphics_flags;
     if( x == SDL_WINDOWPOS_CENTERED )
         x = 0;
+        w = 1280;
     if( y == SDL_WINDOWPOS_CENTERED )
         y = 0;
+        h = 800;
 
     if (!_this) {
         /* Initialize the video system if needed */
