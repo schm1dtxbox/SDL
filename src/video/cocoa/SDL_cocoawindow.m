@@ -1466,7 +1466,7 @@ static int Cocoa_SendMouseButtonClicks(SDL_Mouse * mouse, NSEvent *theEvent, SDL
        white until the app is ready to draw. In practice on modern macOS, this
        only gets called for window creation and other extraordinary events. */
     self.layer.backgroundColor = CGColorGetConstantColor(kCGColorBlack);
-    /*ScheduleContextUpdates((__bridge SDL_WindowData *) _sdlWindow->driverdata);*/
+    ScheduleContextUpdates((__bridge SDL_WindowData *) _sdlWindow->driverdata);
     SDL_SendWindowEvent(_sdlWindow, SDL_WINDOWEVENT_EXPOSED, 0, 0);
 }
 
@@ -1767,7 +1767,7 @@ void Cocoa_SetWindowPosition(_THIS, SDL_Window * window)
     [nswindow setFrameOrigin:rect.origin];
     s_moveHack = moveHack;
 
-    ScheduleContextUpdates(windata);
+    /*ScheduleContextUpdates(windata);*/
 }}
 
 void Cocoa_SetWindowSize(_THIS, SDL_Window * window)
