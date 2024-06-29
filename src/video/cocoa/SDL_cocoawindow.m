@@ -1883,7 +1883,7 @@ void Cocoa_MaximizeWindow(_THIS, SDL_Window * window)
 
     [nswindow zoom:nil];
 
-    /*ScheduleContextUpdates(windata);*/
+    ScheduleContextUpdates(windata);
 }}
 
 void Cocoa_MinimizeWindow(_THIS, SDL_Window * window)
@@ -2045,7 +2045,7 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
         [data.listener resumeVisibleObservation];
     }
 
-    ScheduleContextUpdates(data);
+    /*ScheduleContextUpdates(data);*/
 }}
 
 int Cocoa_SetWindowGammaRamp(_THIS, SDL_Window * window, const Uint16 * ramp)
