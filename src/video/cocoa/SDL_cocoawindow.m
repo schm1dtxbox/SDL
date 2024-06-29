@@ -1630,7 +1630,6 @@ int Cocoa_CreateWindow(_THIS, SDL_Window * window)
     }
 
     [nswindow setColorSpace:[NSColorSpace sRGBColorSpace]];
-    [nswindow setCanHide:NO];
     if (window->flags & FULLSCREEN_MASK) {
         [[NSApplication sharedApplication]
      setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
