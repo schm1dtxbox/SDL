@@ -271,6 +271,9 @@ static void Cocoa_DispatchEvent(NSEvent *theEvent)
      * of here. https://bugzilla.libsdl.org/show_bug.cgi?id=3051
      */
     [NSApp activate];
+    [[NSApplication sharedApplication]
+ setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
+                         | NSApplicationPresentationAutoHideDock];
 
     /* If we call this before NSApp activation, macOS might print a complaint
      * about ApplePersistenceIgnoreState. */
@@ -375,10 +378,6 @@ static void CreateApplicationMenus(void)
 
     [appleMenu addItem:[NSMenuItem separatorItem]];
 
-    [appleMenu addItemWithTitle:@"Preferences…" action:nil keyEquivalent:@","];
-
-    [appleMenu addItem:[NSMenuItem separatorItem]];
-
     serviceMenu = [[NSMenu alloc] initWithTitle:@""];
     menuItem = [appleMenu addItemWithTitle:@"Services" action:nil keyEquivalent:@""];
     [menuItem setSubmenu:serviceMenu];
@@ -417,9 +416,6 @@ void Cocoa_RegisterApp(void)
     if (NSApp == nil) {
         [SDLApplication sharedApplication];
         SDL_assert(NSApp != nil);
-        [[NSApplication sharedApplication]
-     setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
-                             | NSApplicationPresentationAutoHideDock];
 
         s_bShouldHandleEventsInSDLApplication = SDL_TRUE;
         
