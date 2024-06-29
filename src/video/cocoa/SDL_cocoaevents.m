@@ -407,32 +407,6 @@ static void CreateApplicationMenus(void)
 
     /* Tell the application object that this is now the application menu */
     [NSApp setAppleMenu:appleMenu];
-
-    /* Create the window menu */
-    windowMenu = [[NSMenu alloc] initWithTitle:@"Window"];
-
-    /* Add menu items */
-    [windowMenu addItemWithTitle:@"Close" action:@selector(performClose:) keyEquivalent:@"w"];
-
-    [windowMenu addItemWithTitle:@"Minimize" action:@selector(performMiniaturize:) keyEquivalent:@"m"];
-
-    [windowMenu addItemWithTitle:@"Zoom" action:@selector(performZoom:) keyEquivalent:@""];
-
-    /* Add the fullscreen toggle menu option. */
-    /* Cocoa should update the title to Enter or Exit Full Screen automatically.
-     * But if not, then just fallback to Toggle Full Screen.
-     */
-    menuItem = [[NSMenuItem alloc] initWithTitle:@"Toggle Full Screen" action:@selector(toggleFullScreen:) keyEquivalent:@"f"];
-    [menuItem setKeyEquivalentModifierMask:NSEventModifierFlagControl | NSEventModifierFlagCommand];
-    [windowMenu addItem:menuItem];
-
-    /* Put menu into the menubar */
-    menuItem = [[NSMenuItem alloc] initWithTitle:@"Window" action:nil keyEquivalent:@""];
-    [menuItem setSubmenu:windowMenu];
-    [[NSApp mainMenu] addItem:menuItem];
-
-    /* Tell the application object that this is now the window menu */
-    [NSApp setWindowsMenu:windowMenu];
 }
 
 void Cocoa_RegisterApp(void)
