@@ -1634,13 +1634,10 @@ int Cocoa_CreateWindow(_THIS, SDL_Window * window)
     if (window->flags & FULLSCREEN_MASK) {
         [[NSApplication sharedApplication]
      setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
-                             | NSApplicationPresentationHideDock
-                             | NSApplicationPresentationDisableHideApplication];
-        [NSCursor setHiddenUntilMouseMoves:YES];
+                             | NSApplicationPresentationAutoHideDock];
     } else {
         [[NSApplication sharedApplication]
-     setPresentationOptions:   NSApplicationPresentationDisableHideApplication];
-        [NSCursor setHiddenUntilMouseMoves:NO];
+     setPresentationOptions:   NSApplicationPresentationDefault];
     }
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= 101200 /* Added in the 10.12.0 SDK. */
@@ -1994,9 +1991,7 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
         [nswindow setStyleMask:NSWindowStyleMaskBorderless];
         [[NSApplication sharedApplication]
      setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
-                             | NSApplicationPresentationHideDock
-                             | NSApplicationPresentationDisableHideApplication];
-        [NSCursor setHiddenUntilMouseMoves:YES];
+                             | NSApplicationPresentationAutoHideDock];
     } else {
         NSRect frameRect;
         rect.origin.x = window->windowed.x;
@@ -2018,8 +2013,7 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
         [nswindow setFrame:NSMakeRect(frameRect.origin.x, frameRect.origin.y, frameRect.size.width + 1, frameRect.size.height) display:NO];
         [nswindow setFrame:frameRect display:NO];
         [[NSApplication sharedApplication]
-     setPresentationOptions:   NSApplicationPresentationDisableHideApplication];
-        [NSCursor setHiddenUntilMouseMoves:NO];
+     setPresentationOptions:   NSApplicationPresentationDefault];
     }
 
     /* The view responder chain gets messed with during setStyleMask */
