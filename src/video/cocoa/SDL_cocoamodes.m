@@ -385,8 +385,8 @@ int Cocoa_GetDisplayBounds(_THIS, SDL_VideoDisplay * display, SDL_Rect * rect)
     cgrect = CGDisplayBounds(displaydata->display);
     rect->x = (int)cgrect.origin.x;
     rect->y = (int)cgrect.origin.y;
-    rect->w = (int)cgrect.size.width;
-    rect->h = (int)cgrect.size.height;
+    rect->w = CGDisplayPixelsWide(displaydata->display);
+    rect->h = CGDisplayPixelsHigh(displaydata->display);
     return 0;
 }
 
