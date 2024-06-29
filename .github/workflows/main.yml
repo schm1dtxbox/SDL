@@ -1,21 +1,13 @@
 name: Build
 
-on: [push, pull_request, workflow_dispatch]
+on: [push, workflow_dispatch]
 
 jobs:
   Build:
     name: Mac OS X
     runs-on: macos-latest 
 
-    defaults:
-      run:
-        shell: sh
-
-    strategy:
-      fail-fast: false         
-
     steps:
-    - uses: actions/checkout@v4
     - name: Configure
       run: |
         cmake -B build -C cmake_checks_cache.txt \
