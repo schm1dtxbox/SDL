@@ -1628,14 +1628,6 @@ int Cocoa_CreateWindow(_THIS, SDL_Window * window)
     }
 
     [nswindow setColorSpace:[NSColorSpace sRGBColorSpace]];
-    if (window->flags & FULLSCREEN_MASK) {
-        [[NSApplication sharedApplication]
-     setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
-                             | NSApplicationPresentationAutoHideDock];
-    } else {
-        [[NSApplication sharedApplication]
-     setPresentationOptions:   NSApplicationPresentationDefault];
-    }
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= 101200 /* Added in the 10.12.0 SDK. */
     /* By default, don't allow users to make our window tabbed in 10.12 or later */
@@ -1986,9 +1978,6 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
         }
 
         [nswindow setStyleMask:NSWindowStyleMaskBorderless];
-        [[NSApplication sharedApplication]
-     setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar
-                             | NSApplicationPresentationAutoHideDock];
     } else {
         NSRect frameRect;
         rect.origin.x = window->windowed.x;
@@ -2009,8 +1998,6 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
         frameRect = [nswindow frame];
         [nswindow setFrame:NSMakeRect(frameRect.origin.x, frameRect.origin.y, frameRect.size.width + 1, frameRect.size.height) display:NO];
         [nswindow setFrame:frameRect display:NO];
-        [[NSApplication sharedApplication]
-     setPresentationOptions:   NSApplicationPresentationDefault];
     }
 
     /* The view responder chain gets messed with during setStyleMask */
