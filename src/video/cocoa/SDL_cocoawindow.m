@@ -667,52 +667,7 @@ static SDL_bool AdjustCoordinatesForGrab(SDL_Window * window, int x, int y, CGPo
 
 - (void)windowDidResize:(NSNotification *)aNotification
 {
-    SDL_Window *window;
-    NSWindow *nswindow;
-    NSRect rect;
-    int x, y, w, h;
-    BOOL zoomed;
-    if (inFullscreenTransition) {
-        /* We'll take care of this at the end of the transition */
-        return;
-    }
-
-    if (focusClickPending) {
-        focusClickPending = 0;
-        [self onMovingOrFocusClickPendingStateCleared];
-    }
-
-    window = _data.window;
-    nswindow = _data.nswindow;
-    rect = [nswindow contentRectForFrameRect:[nswindow frame]];
-    ConvertNSRect([nswindow screen], (window->flags & FULLSCREEN_MASK), &rect);
-    x = (int)rect.origin.x;
-    y = (int)rect.origin.y;
-    w = (int)rect.size.width;
-    h = (int)rect.size.height;
-
-    if (SDL_IsShapedWindow(window)) {
-        Cocoa_ResizeWindowShape(window);
-    }
-
-    ScheduleContextUpdates(_data);
-
-    /* The window can move during a resize event, such as when maximizing
-       or resizing from a corner */
-    SDL_SendWindowEvent(window, SDL_WINDOWEVENT_MOVED, x, y);
-    SDL_SendWindowEvent(window, SDL_WINDOWEVENT_RESIZED, w, h);
-
-    /* isZoomed always returns true if the window is not resizable */
-    if ((window->flags & SDL_WINDOW_RESIZABLE) && [nswindow isZoomed]) {
-        zoomed = YES;
-    } else {
-        zoomed = NO;
-    }
-    if (!zoomed) {
-        SDL_SendWindowEvent(window, SDL_WINDOWEVENT_RESTORED, 0, 0);
-    } else if (zoomed) {
-        SDL_SendWindowEvent(window, SDL_WINDOWEVENT_MAXIMIZED, 0, 0);
-    }
+    return;
 }
 
 - (void)windowDidMiniaturize:(NSNotification *)aNotification
@@ -1869,7 +1824,7 @@ void Cocoa_RaiseWindow(_THIS, SDL_Window * window)
      */
     [windowData.listener pauseVisibleObservation];
     if (![nswindow isMiniaturized] && [nswindow isVisible]) {
-        [NSApp activateIgnoringOtherApps:YES];
+        [NSApp activate];
         [nswindow makeKeyAndOrderFront:nil];
     }
     [windowData.listener resumeVisibleObservation];
