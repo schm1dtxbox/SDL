@@ -270,7 +270,7 @@ static void Cocoa_DispatchEvent(NSEvent *theEvent)
      * de-focused and re-focused), if this call is in Cocoa_RegisterApp instead
      * of here. https://bugzilla.libsdl.org/show_bug.cgi?id=3051
      */
-    [NSApplication activate];
+    [NSApp activate];
 
     /* If we call this before NSApp activation, macOS might print a complaint
      * about ApplePersistenceIgnoreState. */
