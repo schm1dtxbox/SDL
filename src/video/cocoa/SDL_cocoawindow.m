@@ -258,7 +258,37 @@ static void ConvertNSRect(NSScreen *screen, BOOL fullscreen, NSRect *r)
 
 static void ScheduleContextUpdates(SDL_WindowData *data)
 {
-    return;
+    /* We still support OpenGL as long as Apple offers it, deprecated or not, so disable deprecation warnings about it. */
+    #ifdef SDL_VIDEO_OPENGL
+
+    #ifdef __clang__
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    #endif
+
+    NSOpenGLContext *currentContext;
+    NSMutableArray *contexts;
+    if (!data || !data.nscontexts) {
+        return;
+    }
+
+    currentContext = [NSOpenGLContext currentContext];
+    contexts = data.nscontexts;
+    @synchronized (contexts) {
+        for (SDLOpenGLContext *context in contexts) {
+            if (context == currentContext) {
+                [context update];
+            } else {
+                [context scheduleUpdate];
+            }
+        }
+    }
+
+    #ifdef __clang__
+    #pragma clang diagnostic pop
+    #endif
+
+    #endif /* SDL_VIDEO_OPENGL */
 }
 
 /* !!! FIXME: this should use a hint callback. */
@@ -637,7 +667,52 @@ static SDL_bool AdjustCoordinatesForGrab(SDL_Window * window, int x, int y, CGPo
 
 - (void)windowDidResize:(NSNotification *)aNotification
 {
-    return;
+    SDL_Window *window;
+    NSWindow *nswindow;
+    NSRect rect;
+    int x, y, w, h;
+    BOOL zoomed;
+    if (inFullscreenTransition) {
+        /* We'll take care of this at the end of the transition */
+        return;
+    }
+
+    if (focusClickPending) {
+        focusClickPending = 0;
+        [self onMovingOrFocusClickPendingStateCleared];
+    }
+
+    window = _data.window;
+    nswindow = _data.nswindow;
+    rect = [nswindow contentRectForFrameRect:[nswindow frame]];
+    ConvertNSRect([nswindow screen], (window->flags & FULLSCREEN_MASK), &rect);
+    x = (int)rect.origin.x;
+    y = (int)rect.origin.y;
+    w = (int)rect.size.width;
+    h = (int)rect.size.height;
+
+    if (SDL_IsShapedWindow(window)) {
+        Cocoa_ResizeWindowShape(window);
+    }
+
+    ScheduleContextUpdates(_data);
+
+    /* The window can move during a resize event, such as when maximizing
+       or resizing from a corner */
+    SDL_SendWindowEvent(window, SDL_WINDOWEVENT_MOVED, x, y);
+    SDL_SendWindowEvent(window, SDL_WINDOWEVENT_RESIZED, w, h);
+
+    /* isZoomed always returns true if the window is not resizable */
+    if ((window->flags & SDL_WINDOW_RESIZABLE) && [nswindow isZoomed]) {
+        zoomed = YES;
+    } else {
+        zoomed = NO;
+    }
+    if (!zoomed) {
+        SDL_SendWindowEvent(window, SDL_WINDOWEVENT_RESTORED, 0, 0);
+    } else if (zoomed) {
+        SDL_SendWindowEvent(window, SDL_WINDOWEVENT_MAXIMIZED, 0, 0);
+    }
 }
 
 - (void)windowDidMiniaturize:(NSNotification *)aNotification
@@ -1391,7 +1466,7 @@ static int Cocoa_SendMouseButtonClicks(SDL_Mouse * mouse, NSEvent *theEvent, SDL
        white until the app is ready to draw. In practice on modern macOS, this
        only gets called for window creation and other extraordinary events. */
     self.layer.backgroundColor = CGColorGetConstantColor(kCGColorBlack);
-    ScheduleContextUpdates((__bridge SDL_WindowData *) _sdlWindow->driverdata);
+    /*ScheduleContextUpdates((__bridge SDL_WindowData *) _sdlWindow->driverdata);*/
     SDL_SendWindowEvent(_sdlWindow, SDL_WINDOWEVENT_EXPOSED, 0, 0);
 }
 
@@ -1794,7 +1869,7 @@ void Cocoa_RaiseWindow(_THIS, SDL_Window * window)
      */
     [windowData.listener pauseVisibleObservation];
     if (![nswindow isMiniaturized] && [nswindow isVisible]) {
-        [NSApp activate];
+        [NSApp activateIgnoringOtherApps:YES];
         [nswindow makeKeyAndOrderFront:nil];
     }
     [windowData.listener resumeVisibleObservation];
