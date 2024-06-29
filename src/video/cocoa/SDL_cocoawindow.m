@@ -278,8 +278,6 @@ static void ScheduleContextUpdates(SDL_WindowData *data)
         for (SDLOpenGLContext *context in contexts) {
             if (context == currentContext) {
                 [context update];
-            } else {
-                [context scheduleUpdate];
             }
         }
     }
@@ -1793,7 +1791,7 @@ void Cocoa_SetWindowSize(_THIS, SDL_Window * window)
     [nswindow setFrame:[nswindow frameRectForContentRect:rect] display:YES];
     s_moveHack = moveHack;
 
-    /*ScheduleContextUpdates(windata);*/
+    ScheduleContextUpdates(windata);
 }}
 
 void Cocoa_SetWindowMinimumSize(_THIS, SDL_Window * window)
