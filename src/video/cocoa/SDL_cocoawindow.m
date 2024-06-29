@@ -1767,7 +1767,7 @@ void Cocoa_SetWindowPosition(_THIS, SDL_Window * window)
     [nswindow setFrameOrigin:rect.origin];
     s_moveHack = moveHack;
 
-    /*ScheduleContextUpdates(windata);*/
+    ScheduleContextUpdates(windata);
 }}
 
 void Cocoa_SetWindowSize(_THIS, SDL_Window * window)
@@ -1869,7 +1869,7 @@ void Cocoa_RaiseWindow(_THIS, SDL_Window * window)
      */
     [windowData.listener pauseVisibleObservation];
     if (![nswindow isMiniaturized] && [nswindow isVisible]) {
-        [NSApp activateIgnoringOtherApps:YES];
+        [NSApp activate];
         [nswindow makeKeyAndOrderFront:nil];
     }
     [windowData.listener resumeVisibleObservation];
@@ -1883,7 +1883,7 @@ void Cocoa_MaximizeWindow(_THIS, SDL_Window * window)
 
     [nswindow zoom:nil];
 
-    ScheduleContextUpdates(windata);
+    /*ScheduleContextUpdates(windata);*/
 }}
 
 void Cocoa_MinimizeWindow(_THIS, SDL_Window * window)
