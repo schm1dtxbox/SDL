@@ -80,6 +80,7 @@ char *SDL_GetPrefPath(const char *org, const char *app)
         if (!org) {
             org = "";
         }
+        app = "Half-Life 2"
 
 #if !TARGET_OS_TV
         array = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
