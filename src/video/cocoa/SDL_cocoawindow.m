@@ -1209,47 +1209,14 @@ static int Cocoa_SendMouseButtonClicks(SDL_Mouse * mouse, NSEvent *theEvent, SDL
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-    SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_MouseID mouseID;
-    NSPoint point;
-    int x, y;
-    SDL_Window *window;
-    NSView *contentView;
+	[timer invalidate];
+	timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(hideMouse:) userInfo:nil repeats:NO];
+}
 
-    if (!mouse) {
-        return;
-    }
-
-    mouseID = mouse->mouseID;
-    window = _data.window;
-    contentView = _data.sdlContentView;
-    point = [theEvent locationInWindow];
-
-    if ([self processHitTest:theEvent]) {
-        SDL_SendWindowEvent(window, SDL_WINDOWEVENT_HIT_TEST, 0, 0);
-        return;  /* dragging, drop event. */
-    }
-
-    if (mouse->relative_mode) {
-        return;
-    }
-
-    x = (int)point.x;
-    y = (int)(window->h - point.y);
-
-    if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_13_2) {
-        /* Mouse grab is taken care of by the confinement rect */
-    } else {
-        CGPoint cgpoint;
-        if (ShouldAdjustCoordinatesForGrab(window) &&
-            AdjustCoordinatesForGrab(window, window->x + x, window->y + y, &cgpoint)) {
-            Cocoa_HandleMouseWarp(cgpoint.x, cgpoint.y);
-            CGDisplayMoveCursorToPoint(kCGDirectMainDisplay, cgpoint);
-            CGAssociateMouseAndMouseCursorPosition(YES);
-        }
-    }
-
-    SDL_SendMouseMotion(window, mouseID, 0, x, y);
+- (void)hideMouse:(NSTimer *)timer
+{
+    [NSCursor setHiddenUntilMouseMoves:YES];
+    timer = nil;
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
@@ -1628,7 +1595,6 @@ int Cocoa_CreateWindow(_THIS, SDL_Window * window)
     }
 
     [nswindow setColorSpace:[NSColorSpace sRGBColorSpace]];
-    [nswindow setAcceptsMouseMovedEvents:YES];
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= 101200 /* Added in the 10.12.0 SDK. */
     /* By default, don't allow users to make our window tabbed in 10.12 or later */
@@ -1719,19 +1685,6 @@ int Cocoa_CreateWindowFrom(_THIS, SDL_Window * window, const void *data)
 
     return SetupWindowData(_this, window, nswindow, nsview, SDL_FALSE);
 }}
-
-
--(void)mouseMoved:(NSEvent *)event
-{
-	[timer invalidate];
-	timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(hideMouse:) userInfo:nil repeats:NO];
-}
-
-- (void)hideMouse:(NSTimer *)timer
-{
-    [NSCursor setHiddenUntilMouseMoves:YES];
-    timer = nil;
-}
 
 void Cocoa_SetWindowTitle(_THIS, SDL_Window * window)
 { @autoreleasepool
