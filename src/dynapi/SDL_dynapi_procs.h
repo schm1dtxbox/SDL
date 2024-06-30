@@ -799,7 +799,6 @@ SDL_DYNAPI_PROC(void*,SDL_SIMDRealloc,(void *a, const size_t b),(a, b),return)
 #ifdef __ANDROID__
 SDL_DYNAPI_PROC(SDL_bool,SDL_AndroidRequestPermission,(const char *a),(a),return)
 #endif
-SDL_DYNAPI_PROC(int,SDL_OpenURL,(const char *a),(a),return)
 SDL_DYNAPI_PROC(SDL_bool,SDL_HasSurfaceRLE,(SDL_Surface *a),(a),return)
 SDL_DYNAPI_PROC(SDL_bool,SDL_GameControllerHasLED,(SDL_GameController *a),(a),return)
 SDL_DYNAPI_PROC(int,SDL_GameControllerSetLED,(SDL_GameController *a, Uint8 b, Uint8 c, Uint8 d),(a,b,c,d),return)
