@@ -1211,13 +1211,14 @@ NSTimer *timer = nil;
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
+    [NSCursor unhide];
 	[timer invalidate];
 	timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(hideMouse:) userInfo:nil repeats:NO];
 }
 
 - (void)hideMouse:(NSTimer *)timer
 {
-    [NSCursor setHiddenUntilMouseMoves:YES];
+    [NSCursor hide];
     timer = nil;
 }
 
@@ -1947,7 +1948,6 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
         }
 
         [nswindow setStyleMask:NSWindowStyleMaskBorderless];
-        [NSCursor setHiddenUntilMouseMoves:YES];
     } else {
         NSRect frameRect;
         rect.origin.x = window->windowed.x;
