@@ -23,10 +23,8 @@
 #include "SDL_video.h"
 #include "SDL_sysvideo.h"
 #include "SDL_blit.h"
-#include "SDL_blit_auto.h"
 #include "SDL_blit_copy.h"
 #include "SDL_blit_slow.h"
-#include "SDL_RLEaccel_c.h"
 #include "SDL_pixels_c.h"
 
 /* The general purpose software blit routine */
