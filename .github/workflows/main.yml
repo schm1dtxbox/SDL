@@ -11,9 +11,7 @@ jobs:
     - uses: actions/checkout@main
     - name: Configure
       run: |
-        cmake -B build -C cmake_checks_cache.txt \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_OSX_ARCHITECTURES="arm64"
+        cmake -B build -C cmake_checks_cache.txt
         
     - name: Build
       run: |
