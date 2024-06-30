@@ -273,7 +273,7 @@ static void Cocoa_DispatchEvent(NSEvent *theEvent)
     [NSApp activate];
     [[NSApplication sharedApplication] setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar 
                                                                 | NSApplicationPresentationAutoHideDock];
-    [NSCursor hide];
+    [NSCursor setHiddenUntilMouseMoves:YES];
 
     /* If we call this before NSApp activation, macOS might print a complaint
      * about ApplePersistenceIgnoreState. */
