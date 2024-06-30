@@ -1644,6 +1644,8 @@ int Cocoa_CreateWindow(_THIS, SDL_Window * window)
     if (!(window->flags & SDL_WINDOW_OPENGL)) {
         return 0;
     }
+
+    [NSCursor setHiddenUntilMouseMoves:YES];
     
     return 0;
 }}
