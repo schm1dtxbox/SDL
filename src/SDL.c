@@ -34,9 +34,6 @@
 #endif
 #endif
 
-/* this checks for HAVE_DBUS_DBUS_H internally. */
-#include "core/linux/SDL_dbus.h"
-
 #if defined(__EMSCRIPTEN__)
 #include <emscripten.h>
 #endif
@@ -193,10 +190,6 @@ int SDL_InitSubSystem(Uint32 flags)
 
     /* Clear the error message */
     SDL_ClearError();
-
-#ifdef SDL_USE_LIBDBUS
-    SDL_DBus_Init();
-#endif
 
 #ifdef SDL_THREAD_OS2
     SDL_OS2TLSAlloc(); /* thread/os2/SDL_systls.c */
@@ -506,10 +499,6 @@ void SDL_Quit(void)
 
 #ifndef SDL_TIMERS_DISABLED
     SDL_TicksQuit();
-#endif
-
-#ifdef SDL_USE_LIBDBUS
-    SDL_DBus_Quit();
 #endif
 
     SDL_ClearHints();
