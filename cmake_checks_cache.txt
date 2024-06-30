@@ -7,6 +7,8 @@ set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options a
 set(CMAKE_CHECKS_CACHE_FILE "/Users/runner/work/SDL/SDL/build/cmake_checks_cache.txt" CACHE FILEPATH "CMake checks cache file")
 set(CMAKE_COLOR_MAKEFILE "ON" CACHE BOOL "Enable/Disable color output during build.")
 mark_as_advanced(CMAKE_COLOR_MAKEFILE)
+set(CMAKE_C_COMPILER "/usr/bin/cc" CACHE FILEPATH "C compiler")
+mark_as_advanced(CMAKE_C_COMPILER)
 set(CMAKE_C_FLAGS "" CACHE STRING "Flags used by the C compiler during all build types.")
 mark_as_advanced(CMAKE_C_FLAGS)
 set(CMAKE_C_FLAGS_DEBUG "-g" CACHE STRING "Flags used by the C compiler during DEBUG builds.")
