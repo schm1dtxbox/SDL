@@ -115,27 +115,6 @@ static void SDLCALL SDL_AutoUpdateJoysticksChanged(void *userdata, const char *n
 
 #endif /* !SDL_JOYSTICK_DISABLED */
 
-#ifndef SDL_SENSOR_DISABLED
-
-static SDL_bool SDL_update_sensors = SDL_TRUE;
-
-static void SDL_CalculateShouldUpdateSensors(SDL_bool hint_value)
-{
-    if (hint_value &&
-        !SDL_disabled_events[SDL_SENSORUPDATE >> 8]) {
-        SDL_update_sensors = SDL_TRUE;
-    } else {
-        SDL_update_sensors = SDL_FALSE;
-    }
-}
-
-static void SDLCALL SDL_AutoUpdateSensorsChanged(void *userdata, const char *name, const char *oldValue, const char *hint)
-{
-    SDL_CalculateShouldUpdateSensors(SDL_GetStringBoolean(hint, SDL_TRUE));
-}
-
-#endif /* !SDL_SENSOR_DISABLED */
-
 static void SDLCALL SDL_PollSentinelChanged(void *userdata, const char *name, const char *oldValue, const char *hint)
 {
     (void)SDL_EventState(SDL_POLLSENTINEL, SDL_GetStringBoolean(hint, SDL_TRUE) ? SDL_ENABLE : SDL_DISABLE);
@@ -928,13 +907,6 @@ static void SDL_PumpEventsInternal(SDL_bool push_sentinel)
     }
 #endif
 
-#ifndef SDL_SENSOR_DISABLED
-    /* Check for sensor state change */
-    if (SDL_update_sensors) {
-        SDL_SensorUpdate();
-    }
-#endif
-
     SDL_SendPendingSignalEvents(); /* in case we had a signal handler fire, etc. */
 
     if (push_sentinel && SDL_GetEventState(SDL_POLLSENTINEL) == SDL_ENABLE) {
@@ -974,18 +946,6 @@ static Sint16 SDL_events_get_polling_interval(void)
             poll_interval = SDL_min(poll_interval, EVENT_POLL_INTERVAL_MS);
         } else {
             /* If not, just poll every few seconds to enumerate new joysticks */
-            poll_interval = SDL_min(poll_interval, ENUMERATION_POLL_INTERVAL_MS);
-        }
-    }
-#endif
-
-#ifndef SDL_SENSOR_DISABLED
-    if (SDL_WasInit(SDL_INIT_SENSOR) && SDL_update_sensors) {
-        if (SDL_NumSensors() > 0) {
-            /* If we have sensors open, we need to poll rapidly for events */
-            poll_interval = SDL_min(poll_interval, EVENT_POLL_INTERVAL_MS);
-        } else {
-            /* If not, just poll every few seconds to enumerate new sensors */
             poll_interval = SDL_min(poll_interval, ENUMERATION_POLL_INTERVAL_MS);
         }
     }
