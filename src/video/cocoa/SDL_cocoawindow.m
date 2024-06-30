@@ -1628,6 +1628,7 @@ int Cocoa_CreateWindow(_THIS, SDL_Window * window)
     }
 
     [nswindow setColorSpace:[NSColorSpace sRGBColorSpace]];
+    [nswindow setAcceptsMouseMovedEvents:YES];
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= 101200 /* Added in the 10.12.0 SDK. */
     /* By default, don't allow users to make our window tabbed in 10.12 or later */
@@ -1718,6 +1719,19 @@ int Cocoa_CreateWindowFrom(_THIS, SDL_Window * window, const void *data)
 
     return SetupWindowData(_this, window, nswindow, nsview, SDL_FALSE);
 }}
+
+
+-(void)mouseMoved:(NSEvent *)event
+{
+	[timer invalidate];
+	timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(hideMouse:) userInfo:nil repeats:NO];
+}
+
+- (void)hideMouse:(NSTimer *)timer
+{
+    [NSCursor setHiddenUntilMouseMoves:YES];
+    timer = nil;
+}
 
 void Cocoa_SetWindowTitle(_THIS, SDL_Window * window)
 { @autoreleasepool
