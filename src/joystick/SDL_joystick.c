@@ -52,59 +52,8 @@
 #endif
 
 static SDL_JoystickDriver *SDL_joystick_drivers[] = {
-#ifdef SDL_JOYSTICK_RAWINPUT /* Before WINDOWS_ driver, as WINDOWS wants to check if this driver is handling things */
-    &SDL_RAWINPUT_JoystickDriver,
-#endif
-#if defined(SDL_JOYSTICK_DINPUT) || defined(SDL_JOYSTICK_XINPUT) /* Before WGI driver, as WGI wants to check if this driver is handling things */
-    &SDL_WINDOWS_JoystickDriver,
-#endif
-#if defined(SDL_JOYSTICK_WGI)
-    &SDL_WGI_JoystickDriver,
-#endif
-#if defined(SDL_JOYSTICK_WINMM)
-    &SDL_WINMM_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_LINUX
-    &SDL_LINUX_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_IOKIT
-    &SDL_DARWIN_JoystickDriver,
-#endif
 #if (defined(__MACOSX__) || defined(__IPHONEOS__) || defined(__TVOS__)) && !defined(SDL_JOYSTICK_DISABLED)
     &SDL_IOS_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_ANDROID
-    &SDL_ANDROID_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_EMSCRIPTEN
-    &SDL_EMSCRIPTEN_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_HAIKU
-    &SDL_HAIKU_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_USBHID /* !!! FIXME: "USBHID" is a generic name, and doubly-confusing with HIDAPI next to it. This is the *BSD interface, rename this. */
-    &SDL_BSD_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_OS2
-    &SDL_OS2_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_PS2
-    &SDL_PS2_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_PSP
-    &SDL_PSP_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_VIRTUAL
-    &SDL_VIRTUAL_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_VITA
-    &SDL_VITA_JoystickDriver,
-#endif
-#ifdef SDL_JOYSTICK_N3DS
-    &SDL_N3DS_JoystickDriver
-#endif
-#if defined(SDL_JOYSTICK_DUMMY) || defined(SDL_JOYSTICK_DISABLED)
-        &SDL_DUMMY_JoystickDriver
 #endif
 };
 
