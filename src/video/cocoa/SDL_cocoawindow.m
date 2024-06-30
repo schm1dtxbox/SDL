@@ -1210,7 +1210,7 @@ static int Cocoa_SendMouseButtonClicks(SDL_Mouse * mouse, NSEvent *theEvent, SDL
 - (void)mouseMoved:(NSEvent *)theEvent
 {
 	[timer invalidate];
-	timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(hideMouse:) userInfo:nil repeats:NO];
+	NSTimer timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(hideMouse:) userInfo:nil repeats:NO];
 }
 
 - (void)hideMouse:(NSTimer *)timer
