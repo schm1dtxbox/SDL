@@ -732,8 +732,6 @@ static SDL_bool AdjustCoordinatesForGrab(SDL_Window * window, int x, int y, CGPo
     SDL_Window *window = _data.window;
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    [NSCursor setHiddenUntilMouseMoves:YES];
-
     /* We're going to get keyboard events, since we're key. */
     /* This needs to be done before restoring the relative mouse mode. */
     SDL_SetKeyboardFocus(window);
@@ -1949,6 +1947,7 @@ void Cocoa_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
         }
 
         [nswindow setStyleMask:NSWindowStyleMaskBorderless];
+        [NSCursor setHiddenUntilMouseMoves:YES];
     } else {
         NSRect frameRect;
         rect.origin.x = window->windowed.x;
