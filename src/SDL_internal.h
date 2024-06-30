@@ -44,15 +44,6 @@
         SDL_free(ptr);               \
     }
 
-#include "dynapi/SDL_dynapi.h"
-
-#if SDL_DYNAMIC_API
-#include "dynapi/SDL_dynapi_overrides.h"
-/* force DECLSPEC off...it's all internal symbols now.
-   These will have actual #defines during SDL_dynapi.c only */
-#define DECLSPEC
-#endif
-
 #include "SDL_config.h"
 
 /* If you run into a warning that O_CLOEXEC is redefined, update the SDL configuration header for your platform to add HAVE_O_CLOEXEC */
