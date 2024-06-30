@@ -2009,7 +2009,6 @@ elseif(APPLE)
 
   if(SDL_JOYSTICK)
     file(GLOB MFI_JOYSTICK_SOURCES ${SDL2_SOURCE_DIR}/src/joystick/iphoneos/*.m)
-    file(GLOB JOYSTICK_SOURCES ${SDL2_SOURCE_DIR}/src/joystick/steam/*.c)
     set(SDL_JOYSTICK_MFI 1)
     if(IOS)
       set(SDL_FRAMEWORK_COREMOTION 1)
