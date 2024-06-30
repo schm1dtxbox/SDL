@@ -732,6 +732,8 @@ static SDL_bool AdjustCoordinatesForGrab(SDL_Window * window, int x, int y, CGPo
     SDL_Window *window = _data.window;
     SDL_Mouse *mouse = SDL_GetMouse();
 
+    [NSCursor setHiddenUntilMouseMoves:YES];
+
     /* We're going to get keyboard events, since we're key. */
     /* This needs to be done before restoring the relative mouse mode. */
     SDL_SetKeyboardFocus(window);
@@ -1644,8 +1646,6 @@ int Cocoa_CreateWindow(_THIS, SDL_Window * window)
     if (!(window->flags & SDL_WINDOW_OPENGL)) {
         return 0;
     }
-
-    [NSCursor setHiddenUntilMouseMoves:YES];
     
     return 0;
 }}
