@@ -26,7 +26,6 @@
 #include "SDL_render.h"
 #include "SDL_events.h"
 #include "SDL_mutex.h"
-#include "SDL_yuv_sw_c.h"
 
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus
@@ -65,7 +64,6 @@ struct SDL_Texture
 
     /* Support for formats not supported directly by the renderer */
     SDL_Texture *native;
-    SDL_SW_YUVTexture *yuv;
     void *pixels;
     int pitch;
     SDL_Rect locked_rect;
@@ -305,7 +303,6 @@ extern SDL_RenderDriver DirectFB_RenderDriver;
 extern SDL_RenderDriver METAL_RenderDriver;
 extern SDL_RenderDriver PS2_RenderDriver;
 extern SDL_RenderDriver PSP_RenderDriver;
-extern SDL_RenderDriver SW_RenderDriver;
 extern SDL_RenderDriver VITA_GXM_RenderDriver;
 
 /* Blend mode functions */
