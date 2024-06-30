@@ -1207,7 +1207,7 @@ static int Cocoa_SendMouseButtonClicks(SDL_Mouse * mouse, NSEvent *theEvent, SDL
     [self mouseUp:theEvent];
 }
 
-NSTimer timer = nil;
+NSTimer *timer = nil;
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
