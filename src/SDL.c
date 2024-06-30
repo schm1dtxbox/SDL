@@ -47,7 +47,6 @@
 #include "SDL_log_c.h"
 #include "events/SDL_events_c.h"
 #include "joystick/SDL_joystick_c.h"
-#include "sensor/SDL_sensor_c.h"
 
 /* Initialization/Cleanup routines */
 #ifndef SDL_TIMERS_DISABLED
@@ -321,22 +320,6 @@ int SDL_InitSubSystem(Uint32 flags)
 #endif
     }
 
-    /* Initialize the sensor subsystem */
-    if (flags & SDL_INIT_SENSOR) {
-#ifndef SDL_SENSOR_DISABLED
-        if (SDL_PrivateShouldInitSubsystem(SDL_INIT_SENSOR)) {
-            if (SDL_SensorInit() < 0) {
-                goto quit_and_error;
-            }
-        }
-        SDL_PrivateSubsystemRefCountIncr(SDL_INIT_SENSOR);
-        flags_initialized |= SDL_INIT_SENSOR;
-#else
-        SDL_SetError("SDL not built with sensor support");
-        goto quit_and_error;
-#endif
-    }
-
     (void)flags_initialized; /* make static analysis happy, since this only gets used in error cases. */
 
     return 0;
@@ -358,16 +341,6 @@ void SDL_QuitSubSystem(Uint32 flags)
     SDL_OS2TLSFree(); /* thread/os2/SDL_systls.c */
 #endif
     SDL_OS2Quit();
-#endif
-
-    /* Shut down requested initialized subsystems */
-#ifndef SDL_SENSOR_DISABLED
-    if (flags & SDL_INIT_SENSOR) {
-        if (SDL_PrivateShouldQuitSubsystem(SDL_INIT_SENSOR)) {
-            SDL_SensorQuit();
-        }
-        SDL_PrivateSubsystemRefCountDecr(SDL_INIT_SENSOR);
-    }
 #endif
 
 #ifndef SDL_JOYSTICK_DISABLED
