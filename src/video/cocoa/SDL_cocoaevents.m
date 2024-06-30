@@ -273,26 +273,11 @@ static void Cocoa_DispatchEvent(NSEvent *theEvent)
     [NSApp activate];
     [[NSApplication sharedApplication] setPresentationOptions:   NSApplicationPresentationAutoHideMenuBar 
                                                                 | NSApplicationPresentationAutoHideDock];
-    [self setAcceptsMouseMovedEvents:YES];
     [NSCursor setHiddenUntilMouseMoves:YES];
 
     /* If we call this before NSApp activation, macOS might print a complaint
      * about ApplePersistenceIgnoreState. */
     [SDLApplication registerUserDefaults];
-}
-
-NSTimer timer;
-
--(void)mouseMoved:(NSEvent *)event
-{
-	[timer invalidate];
-	timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(hideMouse:) userInfo:nil repeats:NO];
-}
-
-- (void)hideMouse:(NSTimer *)timer
-{
-    [NSCursor setHiddenUntilMouseMoves:YES];
-    timer = nil;
 }
 
 - (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
