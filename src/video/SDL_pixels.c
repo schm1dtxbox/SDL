@@ -27,7 +27,6 @@
 #include "SDL_sysvideo.h"
 #include "SDL_blit.h"
 #include "SDL_pixels_c.h"
-#include "SDL_RLEaccel_c.h"
 #include "../SDL_list.h"
 
 /* Lookup tables to expand partial bytes to the full 0..255 range */
